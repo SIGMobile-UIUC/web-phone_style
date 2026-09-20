@@ -1,9 +1,16 @@
 // Wallpapers for the phone. Light ones go with the light theme, dark ones with dark mode.
+// The first light / dark entry is that theme's default (and the fallback for unknown ids).
 // To add one: append an entry (unique id, `dark` matches the theme it is meant for, `css` = a CSS background).
 
 export type Wallpaper = { id: string; name: string; dark: boolean; css: string };
 
 export const wallpapers: Wallpaper[] = [
+  {
+    id: "ocean",
+    name: "Ocean",
+    dark: false,
+    css: "radial-gradient(90% 45% at 80% 0%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%), linear-gradient(180deg, #cfeaf8 0%, #6ec0ea 50%, #3aa7de 100%)",
+  },
   {
     id: "sky",
     name: "Sky",
@@ -15,12 +22,6 @@ export const wallpapers: Wallpaper[] = [
     name: "Cloud",
     dark: false,
     css: "radial-gradient(80% 50% at 20% 0%, #ffffff 0%, rgba(255,255,255,0) 70%), linear-gradient(180deg, #ffffff 0%, #eef7fc 55%, #d4eaf6 100%)",
-  },
-  {
-    id: "ocean",
-    name: "Ocean",
-    dark: false,
-    css: "radial-gradient(90% 45% at 80% 0%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%), linear-gradient(180deg, #cfeaf8 0%, #6ec0ea 50%, #3aa7de 100%)",
   },
   {
     id: "night",

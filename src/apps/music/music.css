@@ -21,19 +21,19 @@
   height: 28%;
 }
 .mu-art span {
-  font-size: calc(15 * var(--u));
+  font-size: var(--fs-subhead);
   font-weight: 700;
   letter-spacing: 0.04em;
 }
 
 .mu-title {
-  font-size: calc(22 * var(--u));
+  font-size: var(--fs-title);
   font-weight: 700;
   line-height: 1.15;
 }
 .mu-artist {
   margin-top: calc(2 * var(--u));
-  font-size: calc(17 * var(--u));
+  font-size: var(--fs-body);
   color: var(--brand-deep);
 }
 
@@ -88,7 +88,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: calc(2 * var(--u));
-  font-size: calc(12.5 * var(--u));
+  font-size: var(--fs-footnote);
   color: var(--ink-soft);
   font-variant-numeric: tabular-nums;
 }
@@ -140,7 +140,7 @@
 .mu-note {
   margin: calc(6 * var(--u)) 0 0;
   text-align: center;
-  font-size: calc(12.5 * var(--u));
+  font-size: var(--fs-footnote);
   color: var(--ink-soft);
 }
 .mu-note a {
@@ -242,7 +242,7 @@
   flex: none;
   width: calc(20 * var(--u));
   text-align: center;
-  font-size: calc(14 * var(--u));
+  font-size: var(--fs-subhead);
   color: var(--ink-soft);
   font-variant-numeric: tabular-nums;
 }
@@ -251,11 +251,11 @@
   min-width: 0;
 }
 .mu-item__title {
-  font-size: calc(16 * var(--u));
+  font-size: var(--fs-callout);
   font-weight: 600;
 }
 .mu-item__artist {
-  font-size: calc(13 * var(--u));
+  font-size: var(--fs-footnote);
   color: var(--ink-soft);
 }
 .mu-item.is-current .mu-item__title,

@@ -38,6 +38,10 @@ index.html → frontend.tsx → App.tsx → react-router  (route "*" → <Phone/
 - **Sizing unit `--u`.** Inside `.phone-screen`, `1 --u = 1px on a 390px-wide screen` (`100cqw/390`). Use
   `calc(N * var(--u))` instead of px so the phone scales as one piece. `.phone-screen` uses `contain: layout paint` so
   `position: fixed` children stay inside the phone.
+- **Type and shape.** Text sizes come from the `--fs-*` tokens (large-title 34 … caption2 11, the iOS text styles); use them
+  instead of raw sizes. The UI font is SF where the device has it, otherwise the bundled Inter Variable
+  (`src/assets/fonts`, SIL OFL). Corners use `corner-shape: squircle` where supported (`@supports` blocks at the end of
+  `system.css` / `ui.css`); other browsers fall back to plain rounded corners.
 - **Theme tokens** (`--ink`, `--brand`, `--bg`, `--surface`, `--glass` …) are defined on `.phone-ui`; dark mode is
   `.phone-ui[data-theme="dark"]`. `data-status` switches the status bar between light/dark text; `data-motion` disables
   animation. Brand blue is `#3aa7de`.

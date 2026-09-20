@@ -20,12 +20,12 @@
   outline: 0;
   background: none;
   color: var(--ink);
-  font-size: calc(16 * var(--u));
+  font-size: var(--fs-callout);
 }
 .notes-empty {
   margin: calc(18 * var(--u)) 0;
   color: var(--ink-soft);
-  font-size: calc(15 * var(--u));
+  font-size: var(--fs-subhead);
 }
 
 .notes-list {
@@ -57,7 +57,7 @@
   flex: 1;
 }
 .notes-row__title {
-  font-size: calc(16 * var(--u));
+  font-size: var(--fs-callout);
   font-weight: 600;
 }
 .notes-row__new {
@@ -66,18 +66,18 @@
   border-radius: 999px;
   background: #ff9f0a;
   color: #fff;
-  font-size: calc(10.5 * var(--u));
+  font-size: var(--fs-caption2);
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   vertical-align: 1px;
 }
 .notes-row__note {
-  font-size: calc(14 * var(--u));
+  font-size: var(--fs-subhead);
   color: var(--ink-2);
 }
 .notes-row__domain {
-  font-size: calc(12.5 * var(--u));
+  font-size: var(--fs-footnote);
   color: var(--ink-soft);
 }
 .notes-row > svg {

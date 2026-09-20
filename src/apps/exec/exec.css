@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   gap: calc(8 * var(--u));
-  font-size: calc(22 * var(--u));
+  font-size: var(--fs-title);
   font-weight: 700;
   letter-spacing: -0.01em;
 }
@@ -17,7 +17,7 @@
   border-radius: 999px;
   background: var(--brand);
   color: #fff;
-  font-size: calc(11.5 * var(--u));
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -41,7 +41,7 @@
   outline-offset: 2px;
 }
 .exec-term__count {
-  font-size: calc(13 * var(--u));
+  font-size: var(--fs-footnote);
   font-weight: 500;
   color: var(--ink-soft);
 }
@@ -67,7 +67,7 @@
 
 .exec-note {
   margin: calc(12 * var(--u)) 0;
-  font-size: calc(15 * var(--u));
+  font-size: var(--fs-subhead);
   color: var(--ink-soft);
 }
 .exec-note__retry {

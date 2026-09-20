@@ -12,7 +12,7 @@ test("saved settings are sanitised", () => {
   expect(sanitizePrefs(null)).toEqual(defaultPrefs);
   expect(sanitizePrefs("nope")).toEqual(defaultPrefs);
   expect(sanitizePrefs({ dark: true, wallpaper: "midnight", reduceMotion: true })).toEqual({ dark: true, wallpaper: "midnight", reduceMotion: true });
-  expect(sanitizePrefs({ wallpaper: "deleted-one" }).wallpaper).toBe("sky"); // unknown id -> first light wallpaper
+  expect(sanitizePrefs({ wallpaper: "deleted-one" }).wallpaper).toBe("ocean"); // unknown id -> first light wallpaper
   expect(sanitizePrefs({ dark: true, wallpaper: "sky" }).wallpaper).toBe("night"); // light wallpaper on dark theme -> a dark one
   expect(sanitizePrefs({ reduceMotion: "yes" }).reduceMotion).toBe(false);
 });
@@ -20,6 +20,6 @@ test("saved settings are sanitised", () => {
 test("switching theme keeps a suitable wallpaper and swaps an unsuitable one", () => {
   expect(withDark({ ...defaultPrefs, wallpaper: "ocean" }, true).wallpaper).toBe("night");
   expect(withDark({ ...defaultPrefs, dark: true, wallpaper: "midnight" }, true).wallpaper).toBe("midnight");
-  expect(withDark({ dark: true, wallpaper: "midnight", reduceMotion: false }, false).wallpaper).toBe("sky");
-  expect(resolveWallpaper("nope").id).toBe("sky");
+  expect(withDark({ dark: true, wallpaper: "midnight", reduceMotion: false }, false).wallpaper).toBe("ocean");
+  expect(resolveWallpaper("nope").id).toBe("ocean");
 });
