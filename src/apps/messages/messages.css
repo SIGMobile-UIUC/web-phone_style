@@ -30,11 +30,11 @@
 }
 .msg__who {
   margin-top: calc(4 * var(--u));
-  font-size: calc(13 * var(--u));
+  font-size: var(--fs-footnote);
   font-weight: 600;
 }
 .msg__sub {
-  font-size: calc(11.5 * var(--u));
+  font-size: var(--fs-caption);
   color: var(--ink-soft);
 }
 
@@ -81,7 +81,7 @@
 .msg-bubble {
   padding: calc(9 * var(--u)) calc(14 * var(--u));
   border-radius: calc(20 * var(--u));
-  font-size: calc(16 * var(--u));
+  font-size: var(--fs-callout);
   line-height: 1.32;
 }
 .msg-row--bot .msg-bubble {
@@ -103,7 +103,7 @@
   border-radius: 999px;
   background: #5865f2;
   color: #fff;
-  font-size: calc(14.5 * var(--u));
+  font-size: var(--fs-subhead);
   font-weight: 600;
   text-decoration: none;
 }
@@ -160,7 +160,7 @@
   border-radius: 999px;
   background: none;
   color: var(--brand-deep);
-  font-size: calc(15 * var(--u));
+  font-size: var(--fs-subhead);
   font-weight: 600;
   cursor: pointer;
 }
@@ -176,6 +176,6 @@
   margin: 0;
   width: 100%;
   text-align: center;
-  font-size: calc(14 * var(--u));
+  font-size: var(--fs-subhead);
   color: var(--ink-soft);
 }

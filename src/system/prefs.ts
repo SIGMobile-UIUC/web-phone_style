@@ -4,7 +4,7 @@ import { resolveWallpaper, wallpapers, wallpapersFor } from "./wallpapers";
 
 export type Prefs = { dark: boolean; wallpaper: string; reduceMotion: boolean };
 
-export const defaultPrefs: Prefs = { dark: false, wallpaper: "sky", reduceMotion: false };
+export const defaultPrefs: Prefs = { dark: false, wallpaper: "ocean", reduceMotion: false };
 
 /** Reads whatever was saved (possibly old, partial or hand-edited) into a valid Prefs. */
 export function sanitizePrefs(raw: unknown): Prefs {

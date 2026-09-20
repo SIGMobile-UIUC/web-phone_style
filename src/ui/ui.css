@@ -16,7 +16,7 @@
   height: calc(98 * var(--u));
   padding-top: calc(56 * var(--u));
   text-align: center;
-  font-size: calc(17 * var(--u));
+  font-size: var(--fs-body);
   font-weight: 600;
   background: var(--nav-bg);
   -webkit-backdrop-filter: blur(18px) saturate(1.4);
@@ -44,7 +44,7 @@
 }
 .appframe__large {
   margin: calc(6 * var(--u)) 0 calc(14 * var(--u));
-  font-size: calc(34 * var(--u));
+  font-size: var(--fs-large-title);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -56,7 +56,7 @@
 /* Section heading + generic card used by several apps. */
 .ui-section {
   margin: calc(22 * var(--u)) 0 calc(10 * var(--u));
-  font-size: calc(13 * var(--u));
+  font-size: var(--fs-footnote);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -73,12 +73,12 @@
 }
 .ui-card__title {
   margin: 0 0 calc(4 * var(--u));
-  font-size: calc(17 * var(--u));
+  font-size: var(--fs-body);
   font-weight: 700;
 }
 .ui-card__text {
   margin: 0;
-  font-size: calc(15 * var(--u));
+  font-size: var(--fs-subhead);
   line-height: 1.4;
   color: rgba(11, 42, 59, 0.82);
 }
@@ -92,7 +92,7 @@
   border-radius: 999px;
   background: rgba(58, 167, 222, 0.16);
   color: var(--brand-deep);
-  font-size: calc(12.5 * var(--u));
+  font-size: var(--fs-footnote);
   font-weight: 600;
 }
 .ui-button {
@@ -105,7 +105,7 @@
   border-radius: calc(14 * var(--u));
   background: var(--brand);
   color: #fff;
-  font-size: calc(16 * var(--u));
+  font-size: var(--fs-callout);
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
@@ -161,4 +161,10 @@
 }
 .ui-toggle.is-on .ui-toggle__knob {
   transform: translateX(calc(20 * var(--u)));
+}
+@supports (corner-shape: squircle) {
+  .ui-card,
+  .ui-button {
+    corner-shape: squircle;
+  }
 }

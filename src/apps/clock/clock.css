@@ -17,13 +17,13 @@
 }
 .clock-now__sub {
   margin-top: calc(6 * var(--u));
-  font-size: calc(15 * var(--u));
+  font-size: var(--fs-subhead);
   font-weight: 600;
   color: var(--ink-soft);
 }
 .clock-now__mine {
   margin-top: calc(2 * var(--u));
-  font-size: calc(14 * var(--u));
+  font-size: var(--fs-subhead);
   color: var(--ink-soft);
 }
 
@@ -36,20 +36,20 @@
 }
 .clock-card__label {
   margin: 0 0 calc(4 * var(--u));
-  font-size: calc(12.5 * var(--u));
+  font-size: var(--fs-footnote);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--brand-deep);
 }
 .clock-card__title {
-  font-size: calc(22 * var(--u));
+  font-size: var(--fs-title);
   font-weight: 700;
   line-height: 1.15;
 }
 .clock-card__sub {
   margin-top: calc(2 * var(--u));
-  font-size: calc(14 * var(--u));
+  font-size: var(--fs-subhead);
   color: var(--ink-soft);
 }
 
@@ -74,7 +74,7 @@
   font-variant-numeric: tabular-nums;
 }
 .clock-unit__name {
-  font-size: calc(11 * var(--u));
+  font-size: var(--fs-caption2);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;

@@ -1,6 +1,6 @@
 .projects-lead {
   margin: calc(-6 * var(--u)) 0 calc(14 * var(--u));
-  font-size: calc(15 * var(--u));
+  font-size: var(--fs-subhead);
   font-weight: 600;
   color: var(--ink-soft);
 }
@@ -25,7 +25,7 @@
 }
 .project-card__tagline {
   margin: 0;
-  font-size: calc(15.5 * var(--u));
+  font-size: var(--fs-callout);
   line-height: 1.35;
   opacity: 0.95;
 }
@@ -45,7 +45,7 @@
   padding: calc(4 * var(--u)) calc(10 * var(--u));
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.24);
-  font-size: calc(12.5 * var(--u));
+  font-size: var(--fs-footnote);
   font-weight: 600;
 }
 .project-card__link {
@@ -56,7 +56,7 @@
   border-radius: 999px;
   background: #fff;
   color: #1f5fb8;
-  font-size: calc(14 * var(--u));
+  font-size: var(--fs-subhead);
   font-weight: 700;
   text-decoration: none;
 }

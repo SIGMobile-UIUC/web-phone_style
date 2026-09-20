@@ -18,16 +18,17 @@
   display: block;
 }
 .set-row__label {
-  font-size: calc(16.5 * var(--u));
+  font-size: var(--fs-body);
   font-weight: 500;
 }
 .set-row__hint {
   margin-top: calc(2 * var(--u));
-  font-size: calc(12.5 * var(--u));
+  font-size: var(--fs-footnote);
   color: var(--ink-soft);
 }
 .set-row__value {
-  font-size: calc(16 * var(--u));
+  white-space: nowrap;
+  font-size: var(--fs-callout);
   color: var(--ink-soft);
 }
 
@@ -57,7 +58,7 @@
   box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--brand);
 }
 .set-wallpaper__name {
-  font-size: calc(12.5 * var(--u));
+  font-size: var(--fs-footnote);
   color: var(--ink-soft);
 }
 .set-wallpaper.is-selected .set-wallpaper__name {
@@ -82,6 +83,6 @@
   border: 0;
   background: none;
   color: var(--ink-soft);
-  font-size: calc(13 * var(--u));
+  font-size: var(--fs-footnote);
   cursor: default;
 }
