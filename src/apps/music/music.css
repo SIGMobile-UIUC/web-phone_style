@@ -1,0 +1,281 @@
+.mu-art {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: calc(10 * var(--u));
+  aspect-ratio: 1;
+  margin: calc(6 * var(--u)) calc(14 * var(--u)) calc(22 * var(--u));
+  border-radius: calc(26 * var(--u));
+  background:
+    radial-gradient(70% 60% at 20% 10%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 70%),
+    linear-gradient(155deg, #6ec6f2, #1f7fb8 70%, #1a5e95);
+  color: #fff;
+  box-shadow: 0 16px 36px rgba(31, 134, 189, 0.4);
+  transition: transform 0.4s ease;
+}
+.mu-art.is-playing {
+  transform: scale(1.03);
+}
+.mu-art svg {
+  width: 28%;
+  height: 28%;
+}
+.mu-art span {
+  font-size: calc(15 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.mu-title {
+  font-size: calc(22 * var(--u));
+  font-weight: 700;
+  line-height: 1.15;
+}
+.mu-artist {
+  margin-top: calc(2 * var(--u));
+  font-size: calc(17 * var(--u));
+  color: var(--brand-deep);
+}
+
+.mu-seek {
+  width: 100%;
+  height: calc(18 * var(--u));
+  margin: calc(18 * var(--u)) 0 0;
+  appearance: none;
+  background: none;
+  cursor: pointer;
+}
+.mu-seek::-webkit-slider-runnable-track {
+  height: calc(5 * var(--u));
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand) var(--fill), rgba(120, 140, 155, 0.3) var(--fill));
+}
+.mu-seek::-moz-range-track {
+  height: calc(5 * var(--u));
+  border-radius: 999px;
+  background: rgba(120, 140, 155, 0.3);
+}
+.mu-seek::-moz-range-progress {
+  height: calc(5 * var(--u));
+  border-radius: 999px;
+  background: var(--brand);
+}
+.mu-seek::-webkit-slider-thumb {
+  appearance: none;
+  width: calc(14 * var(--u));
+  height: calc(14 * var(--u));
+  margin-top: calc(-4.5 * var(--u));
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+.mu-seek::-moz-range-thumb {
+  width: calc(14 * var(--u));
+  height: calc(14 * var(--u));
+  border: 0;
+  border-radius: 50%;
+  background: var(--brand);
+}
+.mu-seek:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.mu-seek:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 4px;
+}
+.mu-times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: calc(2 * var(--u));
+  font-size: calc(12.5 * var(--u));
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.mu-controls {
+  display: grid;
+  place-items: center;
+  margin: calc(18 * var(--u)) 0 calc(10 * var(--u));
+}
+.mu-play {
+  display: grid;
+  place-items: center;
+  width: calc(76 * var(--u));
+  height: calc(76 * var(--u));
+  border: 0;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(58, 167, 222, 0.45);
+  cursor: pointer;
+}
+.mu-play:disabled {
+  cursor: default;
+}
+.mu-play:focus-visible {
+  outline: 3px solid var(--brand-deep);
+  outline-offset: 3px;
+}
+.mu-play svg {
+  width: calc(34 * var(--u));
+  height: calc(34 * var(--u));
+  fill: currentColor;
+}
+.mu-spin {
+  animation: mu-spin 0.9s linear infinite;
+  fill: none !important;
+}
+@keyframes mu-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.phone-ui[data-motion="reduced"] .mu-spin,
+.phone-ui[data-motion="reduced"] .mu-art {
+  animation: none;
+  transition: none;
+}
+
+.mu-note {
+  margin: calc(6 * var(--u)) 0 0;
+  text-align: center;
+  font-size: calc(12.5 * var(--u));
+  color: var(--ink-soft);
+}
+.mu-note a {
+  color: var(--brand-deep);
+  font-weight: 700;
+}
+
+/* transport row, volume, playlist */
+.mu-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(28 * var(--u));
+}
+.mu-skip {
+  display: grid;
+  place-items: center;
+  width: calc(52 * var(--u));
+  height: calc(52 * var(--u));
+  border: 0;
+  border-radius: 50%;
+  background: rgba(58, 167, 222, 0.14);
+  color: var(--brand-deep);
+  cursor: pointer;
+}
+.mu-skip svg {
+  width: calc(26 * var(--u));
+  height: calc(26 * var(--u));
+  fill: currentColor;
+}
+.mu-skip:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.mu-volume {
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--u));
+  margin-top: calc(6 * var(--u));
+  padding: 0 calc(6 * var(--u));
+  color: var(--ink-soft);
+}
+.mu-volume svg {
+  width: calc(20 * var(--u));
+  height: calc(20 * var(--u));
+  flex: none;
+}
+.mu-volume input {
+  flex: 1;
+  height: calc(18 * var(--u));
+  appearance: none;
+  background: none;
+  cursor: pointer;
+}
+.mu-volume input::-webkit-slider-runnable-track {
+  height: calc(4 * var(--u));
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ink-soft) var(--fill), rgba(120, 140, 155, 0.3) var(--fill));
+}
+.mu-volume input::-webkit-slider-thumb {
+  appearance: none;
+  width: calc(14 * var(--u));
+  height: calc(14 * var(--u));
+  margin-top: calc(-5 * var(--u));
+  border-radius: 50%;
+  background: var(--ink-soft);
+}
+
+.mu-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: calc(18 * var(--u));
+  background: var(--surface);
+  border: 1px solid var(--glass-line);
+  overflow: hidden;
+}
+.mu-list li + li {
+  border-top: 1px solid var(--glass-line);
+}
+.mu-item {
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--u));
+  width: 100%;
+  padding: calc(10 * var(--u)) calc(14 * var(--u));
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+.mu-item:hover,
+.mu-item:focus-visible {
+  background: rgba(58, 167, 222, 0.1);
+  outline: none;
+}
+.mu-item__num {
+  flex: none;
+  width: calc(20 * var(--u));
+  text-align: center;
+  font-size: calc(14 * var(--u));
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.mu-item__text {
+  display: grid;
+  min-width: 0;
+}
+.mu-item__title {
+  font-size: calc(16 * var(--u));
+  font-weight: 600;
+}
+.mu-item__artist {
+  font-size: calc(13 * var(--u));
+  color: var(--ink-soft);
+}
+.mu-item.is-current .mu-item__title,
+.mu-item.is-current .mu-item__num {
+  color: var(--brand-deep);
+}
+.mu-eq {
+  display: inline-block;
+  width: calc(14 * var(--u));
+  height: calc(14 * var(--u));
+  background: linear-gradient(var(--brand), var(--brand)) 0 100% / 3px 40% no-repeat,
+    linear-gradient(var(--brand), var(--brand)) 50% 100% / 3px 100% no-repeat,
+    linear-gradient(var(--brand), var(--brand)) 100% 100% / 3px 60% no-repeat;
+  animation: mu-eq 0.9s ease-in-out infinite alternate;
+}
+@keyframes mu-eq {
+  to {
+    background-size: 3px 90%, 3px 30%, 3px 80%;
+  }
+}
+.phone-ui[data-motion="reduced"] .mu-eq {
+  animation: none;
+}

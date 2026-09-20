@@ -1,0 +1,9 @@
+/* Order matters: shared base + variables, then per-rarity foils, then our layout overrides. */
+@import "./base.css";
+@import "./cards.css";
+@import "./holo.css";
+@import "./rainbow.css";
+@import "./secret.css";
+@import "./reverse.css";
+@import "./cosmos.css";
+@import "./frame.css";

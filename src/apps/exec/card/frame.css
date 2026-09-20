@@ -1,0 +1,341 @@
+/* Card front layout, modelled on a modern trading card:
+     stage tab + name + HP + type badge / art window / silver details bar /
+     ability tag / energy-cost moves / weakness-resistance-retreat bar / number + flavor.
+   The art window is placed to match the foil clip region
+   (--clip: inset(9.85% 8% 52.85% 8%)) so foil effects line up with it.
+   All sizes use cqw so the card scales as one unit (grid size, zoomed state). */
+
+.sigcard {
+  --card-aspect: 0.718;
+  --card-radius: 4.55% / 3.5%;
+  --card-edge: hsl(47, 100%, 78%);
+  --card-glow: hsl(175, 100%, 90%);
+  --card-back: #3aa7de;
+
+  --silver: linear-gradient(#f7f8fa, #b3b8c1 60%, #e4e6ea);
+
+  /* Set per card from the role's type (see roles.ts). */
+  --type-color: #8a8f98;
+  --paper-1: #f4f5f7;
+  --paper-2: #d5d8dd;
+
+  /* Defaults for the interaction variables that useCardTilt writes every frame. */
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  --card-scale: 1;
+  --card-opacity: 0;
+  --translate-x: 0px;
+  --translate-y: 0px;
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+  --background-x: var(--pointer-x);
+  --background-y: var(--pointer-y);
+  --pointer-from-center: 0;
+  --pointer-from-top: var(--pointer-from-center);
+  --pointer-from-left: var(--pointer-from-center);
+
+  container-type: inline-size;
+  width: 100%;
+  max-width: 22rem;
+  aspect-ratio: var(--card-aspect);
+  border-radius: var(--card-radius);
+  font-family: var(--font-mono);
+  color: #1b1405;
+}
+
+.sigcard__rotator {
+  width: 100%;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+/* Sizing/stacking of front/back comes from base.css (direct children of the rotator). */
+.sigcard__front {
+  position: relative;
+  background: linear-gradient(115deg, #fff6b8 0%, #e9b824 22%, #fff0a0 38%, #d99a10 58%, #ffe680 78%, #e2ae1e 100%);
+  box-shadow: 0 0 0 0.4cqw rgba(60, 40, 0, 0.55) inset, 0 0 0 1.1cqw rgba(255, 255, 255, 0.25) inset;
+}
+
+.sigcard__back {
+  align-content: center;
+  justify-items: center;
+  row-gap: 4cqw;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.28) 0 21cqw, transparent 21.5cqw),
+    radial-gradient(circle at 50% 50%, transparent 0 33cqw, rgba(255, 255, 255, 0.22) 33.5cqw 34.5cqw, transparent 35cqw),
+    linear-gradient(160deg, #6cc2ee, #2a86bb);
+  box-shadow: 0 0 0 3.2cqw var(--card-edge) inset, 0 0 0 3.7cqw rgba(60, 40, 0, 0.5) inset;
+}
+.sigcard__back img {
+  width: 40%;
+  aspect-ratio: auto;
+}
+.sigcard__back-text {
+  color: #fff;
+  font-size: 6cqw;
+  font-weight: 800;
+  letter-spacing: 0.35em;
+  text-indent: 0.35em;
+  text-transform: uppercase;
+}
+
+.sigcard__paper {
+  position: absolute;
+  inset: 2.8% 4%;
+  border-radius: 2.55% / 1.5%;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.7), transparent 45%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0 0.8cqw, transparent 0.8cqw 1.8cqw),
+    linear-gradient(160deg, var(--paper-1), var(--paper-2));
+  box-shadow: 0 0 0 0.3cqw rgba(60, 40, 0, 0.5), inset 0 0 0 0.5cqw rgba(255, 255, 255, 0.55);
+}
+
+/* --- header: [stage tab] name ............ HP (type) --- */
+
+.sigcard__head {
+  position: absolute;
+  top: 4%;
+  left: 6.5%;
+  right: 8%;
+  height: 5.4%;
+  display: flex;
+  align-items: center;
+  gap: 2.2cqw;
+}
+.sigcard__stage {
+  flex: none;
+  padding: 0.5cqw 3.6cqw 0.5cqw 2cqw;
+  font-size: 2.4cqw;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #22252b;
+  background: var(--silver);
+  border-radius: 0.6cqw 0 0 0.6cqw;
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
+}
+.sigcard__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 6cqw;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sigcard__hp {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6cqw;
+  font-size: 5.6cqw;
+  font-weight: 800;
+  line-height: 1;
+}
+.sigcard__hp small {
+  font-size: 2.6cqw;
+}
+.sigcard__type {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 6.4cqw;
+  height: 6.4cqw;
+  font-size: 4cqw;
+  color: #fff;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.75), var(--type-color) 55%);
+  border: 0.35cqw solid rgba(0, 0, 0, 0.55);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.3cqw #d5d8de;
+}
+
+/* --- art window + details bar --- */
+
+.sigcard__art {
+  position: absolute;
+  top: 9.85%;
+  left: 8%;
+  right: 8%;
+  height: 37.3%;
+  border: 0.7cqw solid #f0c23c;
+  box-shadow: 0 0 0 0.3cqw rgba(60, 40, 0, 0.6), inset 0 0 0 0.3cqw rgba(60, 40, 0, 0.5);
+  background: linear-gradient(135deg, #3aa7de, #1d5f85);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.sigcard__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sigcard__initial {
+  font-size: 34cqw;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sigcard__strip {
+  position: absolute;
+  top: 47.9%;
+  left: 5%;
+  right: 5%;
+  padding: 0.6cqw 4cqw;
+  font-size: 2.6cqw;
+  font-weight: 600;
+  font-style: italic;
+  text-align: center;
+  color: #2b2f36;
+  background: var(--silver);
+  border-radius: 0.8cqw;
+  box-shadow: 0 0.3cqw 0.5cqw rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- body: ability + moves --- */
+
+.sigcard__ability {
+  position: absolute;
+  top: 53.4%;
+  left: 8%;
+  right: 8%;
+  display: flex;
+  align-items: flex-start;
+  gap: 2cqw;
+  font-size: 3.1cqw;
+  line-height: 1.3;
+}
+.sigcard__ability-tag {
+  flex: none;
+  padding: 0.3cqw 1.6cqw;
+  font-size: 2.5cqw;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(#e0424b, #b01d26);
+  border-radius: 0.6cqw;
+}
+.sigcard__ability-text {
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.sigcard__moves {
+  position: absolute;
+  top: 60.4%;
+  left: 8%;
+  right: 8%;
+  display: grid;
+  gap: 1.6cqw;
+}
+.sigcard__move {
+  display: grid;
+  grid-template-columns: 9.5cqw 1fr auto;
+  grid-template-areas: "cost name note" ". desc desc";
+  align-items: center;
+  column-gap: 1.4cqw;
+  font-size: 3.6cqw;
+  line-height: 1.25;
+}
+.sigcard__cost {
+  grid-area: cost;
+  display: flex;
+  gap: 0.7cqw;
+}
+.sigcard__energy {
+  width: 3.2cqw;
+  height: 3.2cqw;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff 0 12%, var(--type-color) 60%);
+  border: 0.3cqw solid rgba(0, 0, 0, 0.6);
+}
+.sigcard__move-name {
+  grid-area: name;
+  font-size: 4.2cqw;
+  font-weight: 800;
+}
+.sigcard__move-note {
+  grid-area: note;
+  font-size: 2.8cqw;
+  font-style: italic;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+.sigcard__move-desc {
+  grid-area: desc;
+  font-size: 3.2cqw;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --- weakness / resistance / retreat (labels only until there is something to show) --- */
+
+.sigcard__rules {
+  position: absolute;
+  top: 84.4%;
+  left: 6%;
+  right: 6%;
+  display: flex;
+  align-items: center;
+  gap: 2.4cqw;
+  padding: 0.9cqw 2cqw;
+  font-size: 2.7cqw;
+  font-weight: 600;
+  white-space: nowrap;
+  border-style: solid;
+  border-width: 0.45cqw 0;
+  border-image: linear-gradient(90deg, #d9dce1, #8f95a0, #d9dce1) 1;
+}
+.sigcard__rules-sep {
+  align-self: stretch;
+  width: 0.3cqw;
+  background: rgba(0, 0, 0, 0.25);
+}
+.sigcard__rules-retreat {
+  margin-left: auto;
+}
+
+/* --- bottom: number + rarity (+ email) on the left, flavor text on the right --- */
+
+.sigcard__foot {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 3.9%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 3cqw;
+  font-size: 2.5cqw;
+  line-height: 1.25;
+}
+.sigcard__foot-left {
+  flex: none;
+  display: grid;
+  gap: 0.4cqw;
+  font-weight: 600;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+.sigcard__flavor {
+  flex: 0 1 58%;
+  font-style: italic;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

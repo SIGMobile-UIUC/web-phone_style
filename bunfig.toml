@@ -1,0 +1,10 @@
+
+[install]
+# bun-plugin-tailwind lists `bun` as a peer dependency. Bun is already our runtime, and the npm
+# "bun" package's postinstall leaves node_modules/.bin/bun pointing at a missing exe on Windows
+# (`bun run <script>` then fails with "bin executable does not exist"). So don't auto-install peers.
+peer = false
+
+[serve.static]
+plugins = ["bun-plugin-tailwind"]
+env = "BUN_PUBLIC_*"

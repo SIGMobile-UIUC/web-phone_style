@@ -1,0 +1,135 @@
+/*
+  Ported from simeydotme/pokemon-cards-css (GPL-3.0)
+  Copyright (C) 2022 Simon Goellner <https://github.com/simeydotme/>
+  Modified for SIGMobile: selectors renamed .card -> .sigcard, texture paths made relative.
+*/
+
+/*
+
+  REVERSE HOLO
+
+*/
+
+
+
+
+
+
+
+/*
+
+  SHINE LAYERS
+
+*/
+.sigcard {
+  --foil-brightness: 0.55;
+}
+
+.sigcard[data-rarity$="reverse holo"] .sigcard__shine {
+  
+  background-image: 
+    radial-gradient( 
+      circle at var(--pointer-x) var(--pointer-y),
+      #fff 5%, 
+      #000 50%, 
+      #fff 80% 
+    ), 
+    linear-gradient( 
+      -45deg, 
+      #000 15%, 
+      #fff, 
+      #000 85% 
+    ), 
+    var(--foil);
+
+  background-blend-mode: soft-light, difference;
+  background-size: 120% 120%, 200% 200%, cover;
+  background-position: center center, calc( (100% * var(--pointer-from-left))) calc( (100% * var(--pointer-from-top))) , center center;
+  
+  filter: brightness(var(--foil-brightness)) contrast(1.5) saturate(1);
+  mix-blend-mode: color-dodge;
+
+  opacity: calc( (1.5 * var(--card-opacity)) - var(--pointer-from-center));
+  
+}
+
+.sigcard.lightning   { --foil-brightness: 0.7; }
+.sigcard.darkness    { --foil-brightness: 0.8; }
+.sigcard.metal       { --foil-brightness: 0.6; }
+
+
+
+
+
+
+
+
+
+/*
+
+  GLARE LAYERS
+
+*/
+	
+.sigcard[data-rarity$="reverse holo"] .sigcard__glare {
+
+  opacity: var(--card-opacity);
+  
+  background-image: 
+    radial-gradient(
+      farthest-corner circle at var(--pointer-x) var(--pointer-y),
+      hsla(0, 0%, 100%, 0.8) 10%,
+      hsla(0, 0%, 100%, 0.5) 20%,
+      hsla(0, 0%, 0%, 0.75) 90%
+    );
+
+  filter: brightness(.7) contrast(1.5);
+
+}
+
+.sigcard[data-rarity$="reverse holo"] .sigcard__glare:after {
+
+  content: "";
+  opacity: var(--card-opacity);
+  
+  background-image: 
+    radial-gradient( 
+      farthest-corner circle at var(--pointer-x) var(--pointer-y), 
+      hsl(0, 0%, 100%) 10%, 
+      hsla(0, 0%, 100%, 0.5) 20%, 
+      hsla(0, 0%, 0%, 0.5) 120% 
+    );
+
+  filter: brightness(1) contrast(1.5);
+
+}
+
+
+
+
+
+
+
+
+
+
+/*
+
+  NO MASK
+
+*/
+
+.sigcard:not(.masked)[data-rarity$="reverse holo"] .sigcard__shine {
+  --foil: none;
+  clip-path: var(--clip-invert);
+}
+
+.sigcard:not(.masked)[data-rarity$="reverse holo"][data-subtypes^="stage"] .sigcard__glare:after {
+  clip-path: var(--clip-stage-invert);
+}
+
+.sigcard:not(.masked)[data-rarity$="reverse holo"][data-supertype="trainer"] .sigcard__glare:after {
+  clip-path: var(--clip-trainer-invert);
+}
+
+

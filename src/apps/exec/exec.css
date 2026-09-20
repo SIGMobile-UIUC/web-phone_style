@@ -1,0 +1,80 @@
+/* Executive Board app layout (the trading-card styles themselves are in card/). */
+
+.exec-term {
+  margin-bottom: calc(14 * var(--u));
+}
+.exec-term__title {
+  margin: 0 0 calc(10 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--u));
+  font-size: calc(22 * var(--u));
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.exec-term__badge {
+  padding: calc(3 * var(--u)) calc(9 * var(--u));
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  font-size: calc(11.5 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.exec-term__toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--u));
+  padding: calc(14 * var(--u)) calc(16 * var(--u));
+  border: 1px solid var(--glass-line);
+  border-radius: calc(18 * var(--u));
+  background: var(--surface);
+  font-size: calc(18 * var(--u));
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.exec-term__toggle:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.exec-term__count {
+  font-size: calc(13 * var(--u));
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.exec-term__toggle svg {
+  width: calc(20 * var(--u));
+  height: calc(20 * var(--u));
+  margin-left: auto;
+  color: var(--brand-deep);
+  transition: transform 0.25s ease;
+}
+.exec-term__toggle svg.is-open {
+  transform: rotate(180deg);
+}
+
+/* Room around the cards for their glow/shadow; as many columns as fit the app's width. */
+.exec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(300 * var(--u))), 1fr));
+  justify-items: center;
+  gap: calc(30 * var(--u));
+  padding: calc(10 * var(--u)) 0 calc(24 * var(--u));
+}
+
+.exec-note {
+  margin: calc(12 * var(--u)) 0;
+  font-size: calc(15 * var(--u));
+  color: var(--ink-soft);
+}
+.exec-note__retry {
+  border: 0;
+  background: none;
+  color: var(--brand-deep);
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}

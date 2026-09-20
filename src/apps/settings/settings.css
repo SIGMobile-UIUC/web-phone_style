@@ -1,0 +1,87 @@
+.set-group {
+  border-radius: calc(18 * var(--u));
+  background: var(--surface);
+  border: 1px solid var(--glass-line);
+  overflow: hidden;
+}
+.set-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(12 * var(--u));
+  padding: calc(13 * var(--u)) calc(16 * var(--u));
+}
+.set-row + .set-row {
+  border-top: 1px solid var(--glass-line);
+}
+.set-row--block {
+  display: block;
+}
+.set-row__label {
+  font-size: calc(16.5 * var(--u));
+  font-weight: 500;
+}
+.set-row__hint {
+  margin-top: calc(2 * var(--u));
+  font-size: calc(12.5 * var(--u));
+  color: var(--ink-soft);
+}
+.set-row__value {
+  font-size: calc(16 * var(--u));
+  color: var(--ink-soft);
+}
+
+.set-wallpapers {
+  display: flex;
+  gap: calc(12 * var(--u));
+  margin-top: calc(12 * var(--u));
+}
+.set-wallpaper {
+  display: grid;
+  gap: calc(6 * var(--u));
+  justify-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.set-wallpaper__preview {
+  width: calc(64 * var(--u));
+  height: calc(112 * var(--u));
+  border-radius: calc(12 * var(--u));
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 1px var(--glass-line);
+}
+.set-wallpaper.is-selected .set-wallpaper__preview {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--brand);
+}
+.set-wallpaper__name {
+  font-size: calc(12.5 * var(--u));
+  color: var(--ink-soft);
+}
+.set-wallpaper.is-selected .set-wallpaper__name {
+  color: var(--brand-deep);
+  font-weight: 700;
+}
+.set-wallpaper:focus-visible .set-wallpaper__preview {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+.set-reset {
+  width: 100%;
+  margin-top: calc(22 * var(--u));
+}
+
+.set-version {
+  display: block;
+  width: 100%;
+  margin-top: calc(14 * var(--u));
+  padding: calc(8 * var(--u));
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font-size: calc(13 * var(--u));
+  cursor: default;
+}

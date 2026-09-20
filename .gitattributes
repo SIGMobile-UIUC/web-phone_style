@@ -1,0 +1,7 @@
+# Keep line endings identical on Windows, macOS and Linux (no noisy "whole file changed" diffs).
+* text=auto eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.webp binary

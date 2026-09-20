@@ -1,0 +1,64 @@
+.calc {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 calc(16 * var(--u)) calc(52 * var(--u));
+  background: #000;
+  color: #fff;
+}
+.calc__display {
+  margin-bottom: calc(10 * var(--u));
+  padding: 0 calc(8 * var(--u));
+  text-align: right;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.calc__pad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: calc(12 * var(--u));
+}
+.calc-key {
+  height: calc(78 * var(--u));
+  border: 0;
+  border-radius: 999px;
+  font-size: calc(32 * var(--u));
+  font-weight: 400;
+  cursor: pointer;
+  transition: filter 0.1s ease;
+}
+.calc-key:active {
+  filter: brightness(1.4);
+}
+.calc-key:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+.calc-key--num {
+  background: #333333;
+  color: #fff;
+}
+.calc-key--fn {
+  background: #a5a5a5;
+  color: #000;
+}
+.calc-key--op {
+  background: #ff9f0a;
+  color: #fff;
+  font-size: calc(38 * var(--u));
+}
+.calc-key--op.is-active {
+  background: #fff;
+  color: #ff9f0a;
+}
+.calc-key--wide {
+  grid-column: span 2;
+  padding-left: calc(30 * var(--u));
+  text-align: left;
+}

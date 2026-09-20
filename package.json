@@ -1,0 +1,36 @@
+{
+  "name": "sigmobile-web",
+  "description": "SIGMobile (mobile app development SIG at UIUC) website, presented as a phone",
+  "version": "0.1.0",
+  "private": true,
+  "repository": { "type": "git", "url": "https://github.com/SIGMobile-UIUC/web-test-build.git" },
+  "type": "module",
+  "main": "src/index.tsx",
+  "module": "src/index.tsx",
+  "scripts": {
+    "dev": "bun --hot src/index.tsx",
+    "start": "NODE_ENV=production bun src/index.tsx",
+    "build": "bun run build.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "check": "bun run typecheck && bun test && bun run build"
+  },
+  "dependencies": {
+    "lucide-react": "^1.39.0",
+    "motion": "^13.4.0",
+    "react": "^19",
+    "react-dom": "^19",
+    "react-icons": "^5.7.0",
+    "react-router-dom": "^7.18.3",
+    "tailwindcss": "^4.3.3",
+    "three": "^0.170"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "0.170.0",
+    "bun-plugin-tailwind": "^0.1.2",
+    "typescript": "7.0.2"
+  }
+}
