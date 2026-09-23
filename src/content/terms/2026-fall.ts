@@ -13,6 +13,7 @@ import kevin from "../photos/kevin.jpg";
 import maple from "../photos/maple.jpg";
 import mariia from "../photos/mariia.jpg";
 import riley from "../photos/riley.jpg";
+import shubh from "../photos/shubh.jpg";
 import { tba } from "../places";
 import type { Term } from "../types";
 
@@ -125,6 +126,17 @@ export default {
       interests: ["AI", "Data", "NLP", "Food"],
       favLang: "Python",
       funFact: "Dual U.S.-Korean citizen who served near the DMZ in the Korean army.",
+    },
+    {
+      id: "shubh",
+      photo: shubh,
+      name: "Shubh Jain",
+      role: "Member",
+      standing: "Sophomore",
+      major: "Computer Science",
+      interests: ["Badminton", "Cooking", "Hiking", "Music"],
+      favLang: "Python",
+      funFact: "Spent 100s of dollars' worth of Fable 5 on just one PR merge.",
     },
   ],
 } satisfies Term;
