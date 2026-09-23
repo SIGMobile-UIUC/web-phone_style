@@ -1,10 +1,11 @@
 import { expect, test } from "bun:test";
+import { getTerm } from "../../content/terms";
 import { getRoster, listTerms } from "./api";
 import { rarityOf, standingHp } from "./roles";
 
 test("roster comes back in the file's order with the term's role", async () => {
   const roster = await getRoster("2026-fall");
-  expect(roster.map((m) => m.id)).toEqual(["ari", "mariia", "maple", "riley", "kevin"]);
+  expect(roster.map((m) => m.id)).toEqual(getTerm("2026-fall")!.members.map((m) => m.id)); // not a hard-coded list: adding a member must not break this
   expect(roster[0]).toMatchObject({ name: "Ari", role: "President", standing: "Sophomore" });
 });
 
@@ -13,7 +14,7 @@ test("unknown term has an empty roster", async () => {
 });
 
 test("term summaries carry the member count", async () => {
-  expect(await listTerms()).toEqual([{ id: "2026-fall", year: 2026, semester: "fall", memberCount: 5 }]);
+  expect(await listTerms()).toEqual([{ id: "2026-fall", year: 2026, semester: "fall", memberCount: getTerm("2026-fall")!.members.length }]);
 });
 
 test("rarity: explicit override > past term > role default", async () => {
