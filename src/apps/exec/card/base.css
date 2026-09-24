@@ -218,7 +218,10 @@ button.sigcard__rotator {
   background-color: var(--card-back);
   -webkit-transform: rotateY(180deg) translateZ(1px);
   transform: rotateY(180deg) translateZ(1px);
-  backface-visibility: visible;
+  /* The card never flips here, so the back must not be drawn at all. Left visible it sits 1px behind the front and
+     phones (which composite 3D layers rather than depth-test them) flash it through the front while tilting. */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .sigcard__front,
