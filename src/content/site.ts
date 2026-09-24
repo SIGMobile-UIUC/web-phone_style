@@ -6,7 +6,7 @@ export const site = {
   /** All meeting times are wall-clock times in this IANA time zone, whatever the visitor's zone is. */
   timeZone: "America/Chicago",
   links: {
-    discord: "https://discord.gg/bkRZ3QYjVG",
+    discord: "https://discord.gg/A9RdGmVzZ3",
     instagram: "https://www.instagram.com/sigmobile.uiuc/",
   },
 } as const;
