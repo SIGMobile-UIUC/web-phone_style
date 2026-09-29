@@ -56,8 +56,8 @@ export function formatInViewerZone(d: Date, viewerZone?: string, clubZone: strin
 export const formatTermLabel = (t: Pick<Term, "year" | "semester">): string =>
   `${t.semester === "fall" ? "Fall" : "Spring"} ${t.year}`;
 
-/** "Location TBA" or "Siebel Center, Room 1404" */
-export const formatPlace = (p: Place): string => (p.room ? `${p.name}, Room ${p.room}` : p.name);
+/** "Location TBA" or "Siebel Center, Room 1404". A no-break space keeps "Room 1404" together when the line wraps. */
+export const formatPlace = (p: Place): string => (p.room ? `${p.name}, Room ${p.room}` : p.name);
 
 /** "Wednesday, September 23" for a calendar date ("YYYY-MM-DD"), independent of any time zone. */
 export const formatDateLabel = (date: string): string =>

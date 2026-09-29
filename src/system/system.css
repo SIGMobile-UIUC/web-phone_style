@@ -305,7 +305,7 @@
 }
 .notif__text {
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3; /* "Next meeting: <when> · <building>, Room <n>" needs three lines; never cut off the room */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

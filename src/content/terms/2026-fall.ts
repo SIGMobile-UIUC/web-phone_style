@@ -14,7 +14,7 @@ import maple from "../photos/maple.jpg";
 import mariia from "../photos/mariia.jpg";
 import riley from "../photos/riley.jpg";
 import shubh from "../photos/shubh.jpg";
-import { tba } from "../places";
+import { siebel3401, siebel4403 } from "../places";
 import type { Term } from "../types";
 
 // Source: SIGMobile Information Session slides (Fall 2026).
@@ -27,7 +27,9 @@ export default {
 
   meetings: [
     // Wednesdays 6-8pm Central. First regular meeting is week 2 (9/23); week 1 (9/14) was the kickoff.
-    { from: "2026-09-23", weekday: "wed", start: "18:00", end: "20:00", place: tba },
+    { from: "2026-09-23", weekday: "wed", start: "18:00", end: "20:00", place: siebel3401 },
+    // From Oct 7 we meet in a smaller room that is reserved for us (the Sep 30 meeting is still in 3401).
+    { from: "2026-10-07", weekday: "wed", start: "18:00", end: "20:00", place: siebel4403 },
   ],
   // { date: "2026-11-25", cancelled: true, note: "Thanksgiving week" }
   meetingExceptions: [],
