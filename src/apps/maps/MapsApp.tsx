@@ -1,11 +1,11 @@
 import { Clock, Navigation, Map as MapIcon } from "lucide-react";
 import { FaDiscord } from "react-icons/fa";
-import { isTba } from "../../content/places";
+import { isTba, tba } from "../../content/places";
 import { site } from "../../content/site";
 import { terms } from "../../content/terms";
 import { formatMeetingWhen, formatPlace } from "../../lib/format";
 import { appleMapsUrl, directionsUrl } from "../../lib/maps";
-import { nextMeeting } from "../../lib/schedule";
+import { meetingsOf, nextMeeting } from "../../lib/schedule";
 import { useNow } from "../../system/useNow";
 import AppFrame from "../../ui/AppFrame";
 import "./maps.css";
@@ -54,7 +54,8 @@ function MapArt({ unknown }: { unknown: boolean }) {
 export default function MapsApp() {
   const now = useNow(60_000);
   const next = nextMeeting(terms, now);
-  const place = next?.occurrence.place ?? terms[0].meetings[0].place;
+  // No meeting left this term: show where the last one was (not the first rule, which may be an old room).
+  const place = next?.occurrence.place ?? meetingsOf(terms[0]).at(-1)?.place ?? tba;
   const unknown = isTba(place);
   const google = directionsUrl(place);
   const apple = appleMapsUrl(place);

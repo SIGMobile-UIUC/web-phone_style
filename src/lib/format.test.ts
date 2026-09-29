@@ -29,7 +29,7 @@ test("term label and place read as English", () => {
   expect(formatTermLabel({ year: 2026, semester: "fall" })).toBe("Fall 2026");
   expect(formatTermLabel({ year: 2027, semester: "spring" })).toBe("Spring 2027");
   expect(formatPlace({ name: "Location TBA" })).toBe("Location TBA");
-  expect(formatPlace({ name: "Example Hall", room: "101" })).toBe("Example Hall, Room 101");
+  expect(formatPlace({ name: "Example Hall", room: "101" })).toBe("Example Hall, Room 101"); // no-break space
 });
 
 test("time range and weekday for the side panel", () => {
