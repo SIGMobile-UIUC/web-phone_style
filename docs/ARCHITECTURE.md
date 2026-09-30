@@ -50,6 +50,11 @@ index.html → frontend.tsx → App.tsx → react-router  (route "*" → <Phone/
 - **Apps are routes.** `/exec`, `/calendar` … resolve through `appIdFromPath`. Opening an app grows a `clip-path` from the
   icon's rectangle (stored as % insets, so it survives resizing); closing is Esc / bottom-bar swipe / browser back.
   A deep link skips the lock screen.
+- **Folders.** `folders` in `registry.tsx` groups apps; a folder id goes in `homeLayout` like an app id. `FolderIcon` shows
+  the first nine apps as tiny tiles, and `FolderView` opens the folder over the blurred home screen. The open folder is
+  rendered outside `.home-layer` (between home and app window), because a transformed/filtered ancestor disables
+  `backdrop-filter`. It stays open under an app launched from it, so closing the app returns to the folder.
+  `layout.ts` (`layoutProblems`) checks ids and that every app is placed only once.
 - **Time.** Meeting times are wall-clock in `America/Chicago` (`site.timeZone`). `lib/time.ts` converts wall-clock ↔
   instant with `Intl` (`zonedTimeToInstant`), so DST changes are correct — Fall 2026 contains the Nov 1 change and is tested.
   Never build a meeting time with `new Date(y, m, d, h)`; that uses the visitor's zone.
@@ -65,7 +70,7 @@ index.html → frontend.tsx → App.tsx → react-router  (route "*" → <Phone/
 
 1. `src/apps/<id>/<Name>App.tsx`, wrapped in `<AppFrame title="…">`.
 2. Add it to `apps` in `src/apps/registry.tsx` (icon, colours, `component: lazy(() => import(...))`).
-3. Add its id to `homeLayout` (page grid or dock). Its route (`/<id>`) works automatically; use `href` instead of `component` for an external link.
+3. Add its id to `homeLayout` (page grid or dock) or to a folder's `apps`. Its route (`/<id>`) works automatically; use `href` instead of `component` for an external link.
 4. `bun run check` — a test verifies ids, layout and that every app has a screen.
 
 Put app-specific CSS next to the app (`<id>.css`) and prefix classes with the app name (`notes-…`, `exec-…`).

@@ -1,4 +1,11 @@
+import type { CSSProperties } from "react";
 import type { AppManifest } from "../apps/registry";
+
+/** The icon tile's gradient + glyph colour (shared with the small icons on a folder tile). */
+export const tileStyle = (app: AppManifest): CSSProperties => ({
+  background: `linear-gradient(155deg, ${app.colors[0]}, ${app.colors[1]})`,
+  color: app.glyph ?? "#fff",
+});
 
 /** One icon tile (+ label). External apps render as a link that opens in a new tab. */
 export default function AppIcon({
@@ -14,10 +21,7 @@ export default function AppIcon({
   const Icon = app.icon;
   const content = (
     <>
-      <span
-        className="app-icon__tile"
-        style={{ background: `linear-gradient(155deg, ${app.colors[0]}, ${app.colors[1]})`, color: app.glyph ?? "#fff" }}
-      >
+      <span className="app-icon__tile" style={tileStyle(app)}>
         <Icon size="54%" />
       </span>
       {showLabel && <span className="app-icon__label">{app.name}</span>}

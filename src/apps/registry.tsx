@@ -1,5 +1,5 @@
 // Every app on the phone. To add an app: add an entry here, create its screen (see apps/about for a small
-// example), then place its id in `homeLayout`.
+// example), then place its id in `homeLayout` or in a folder's `apps`.
 //   `component` = the screen shown when the app opens (lazy-loaded, so each app is its own download)
 //   `href`      = opens that link in a new tab instead (Discord, Instagram)
 
@@ -18,7 +18,10 @@ import {
 import { lazy, type ComponentType, type LazyExoticComponent } from "react";
 import { FaDiscord, FaInstagram } from "react-icons/fa";
 import { site } from "../content/site";
+import type { FolderManifest, HomeLayout } from "./layout";
 import { appIdFromPath } from "./routes";
+
+export type { FolderManifest } from "./layout";
 
 export type AppIcon = ComponentType<{ size?: number | string; className?: string }>;
 
@@ -57,11 +60,17 @@ export const apps: Record<string, AppManifest> = {
   instagram: { id: "instagram", name: "Instagram", icon: FaInstagram, colors: ["#f58529", "#dd2a7b"], href: site.links.instagram },
 };
 
-/** What is on the home screen, in order. Ids must exist in `apps` (a test checks this). */
-export const homeLayout = {
+/**
+ * Folders on the home screen. Put the folder's id in `homeLayout` like an app id; tapping it opens a grid of its
+ * `apps` (up to 9 show on the folder tile). An app inside a folder must not also be placed elsewhere.
+ */
+export const folders: Record<string, FolderManifest> = {};
+
+/** What is on the home screen, in order: app ids and folder ids (a test checks every id exists and is used once). */
+export const homeLayout: HomeLayout = {
   pages: [["about", "projects", "exec", "calendar", "clock", "maps", "notes", "calculator", "settings"]],
   dock: ["messages", "music", "discord", "instagram"],
-} as const;
+};
 
 /** Apps that open inside the phone (i.e. have a route like /exec). */
 export const internalAppIds = Object.values(apps)

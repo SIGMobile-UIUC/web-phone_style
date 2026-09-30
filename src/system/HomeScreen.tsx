@@ -1,23 +1,33 @@
-import { motion, useTransform } from "motion/react";
+import { AnimatePresence, motion, useTransform } from "motion/react";
 import { CalendarDays } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { apps, appIdFromLocation, homeLayout, type AppManifest } from "../apps/registry";
+import { apps, appIdFromLocation, folders, homeLayout, type AppManifest } from "../apps/registry";
 import { terms } from "../content/terms";
 import { formatMeetingWhen, formatPlace } from "../lib/format";
 import { nextMeeting } from "../lib/schedule";
 import { formatCountdown } from "../lib/time";
 import AppIcon from "./AppIcon";
+import FolderIcon from "./FolderIcon";
+import FolderView from "./FolderView";
 import { useSystem } from "./SystemProvider";
 import { useNow } from "./useNow";
 
 /**
- * Icons + widget. It sits behind the lock screen (eases into focus as the lock screen slides away) and behind
+ * Icons, folders + widget. It sits behind the lock screen (eases into focus as the lock screen slides away) and behind
  * an open app (shrinks back and blurs, like on a phone).
  */
 export default function HomeScreen() {
   const { progress, locked, rememberOrigin } = useSystem();
   const navigate = useNavigate();
   const appOpen = appIdFromLocation(useLocation().pathname) !== null;
+  const [openFolder, setOpenFolder] = useState<string | null>(null);
+  const closeFolder = useCallback(() => setOpenFolder(null), []);
+
+  // Locking the phone closes any open folder, like on iOS.
+  useEffect(() => {
+    if (locked) setOpenFolder(null);
+  }, [locked]);
 
   const scale = useTransform(progress, [0, 1], [1.14, 1]);
   const filter = useTransform(progress, [0, 1], ["blur(14px)", "blur(0px)"]);
@@ -28,31 +38,46 @@ export default function HomeScreen() {
     navigate(`/${app.id}`);
   };
 
+  /** One home-screen slot: an app, or a folder that opens in place. */
+  const slot = (id: string, showLabel = true) =>
+    folders[id] ? (
+      <FolderIcon key={id} folder={folders[id]} showLabel={showLabel} expanded={openFolder === id} onOpen={() => setOpenFolder(id)} />
+    ) : (
+      <AppIcon key={id} app={apps[id]} showLabel={showLabel} onOpen={open} />
+    );
+
   return (
-    <motion.div
-      className="home-layer"
-      animate={{ scale: appOpen ? 0.92 : 1, filter: appOpen ? "blur(8px)" : "blur(0px)" }}
-      transition={{ duration: 0.35 }}
-    >
-      <motion.div className="home" style={{ scale, filter, opacity }} inert={locked || appOpen}>
-        <NextMeetingWidget />
+    <>
+      <motion.div
+        className="home-layer"
+        animate={{ scale: appOpen ? 0.92 : 1, filter: appOpen ? "blur(8px)" : "blur(0px)" }}
+        transition={{ duration: 0.35 }}
+      >
+        <motion.div className="home" style={{ scale, filter, opacity }} inert={locked || appOpen}>
+          <div inert={openFolder !== null}>
+            <NextMeetingWidget />
 
-        {homeLayout.pages.map((page, i) => (
-          <div className="app-grid" key={i}>
-            {page.map((id) => (
-              <AppIcon key={id} app={apps[id]} onOpen={open} />
+            {homeLayout.pages.map((page, i) => (
+              <div className="app-grid" key={i}>
+                {page.map((id) => slot(id))}
+              </div>
             ))}
-          </div>
-        ))}
 
-        <nav className="dock" aria-label="Dock">
-          {homeLayout.dock.map((id) => (
-            <AppIcon key={id} app={apps[id]} showLabel={false} onOpen={open} />
-          ))}
-        </nav>
-        <div className="home-indicator" />
+            <nav className="dock" aria-label="Dock">
+              {homeLayout.dock.map((id) => slot(id, false))}
+            </nav>
+            <div className="home-indicator" />
+          </div>
+        </motion.div>
       </motion.div>
-    </motion.div>
+
+      {/* Outside the home layer: its transform/filter would stop the folder's backdrop blur from working. */}
+      <AnimatePresence>
+        {openFolder && folders[openFolder] && (
+          <FolderView key={openFolder} folder={folders[openFolder]} appOpen={appOpen} onOpenApp={open} onClose={closeFolder} />
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
