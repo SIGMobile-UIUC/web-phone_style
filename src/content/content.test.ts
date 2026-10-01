@@ -6,7 +6,6 @@ import { readdirSync } from "node:fs";
 import path from "node:path";
 import { meetingsOf } from "../lib/schedule";
 import { parseDate, parseTime } from "../lib/time";
-import { codleWords } from "./codle";
 import { isTba } from "./places";
 import { site } from "./site";
 import { byNewest, terms } from "./terms";
@@ -117,15 +116,4 @@ test("heads-up: the newest term's meeting place is still TBA", () => {
   const stillTba = terms[0].meetings.some((r) => isTba(r.place));
   if (stillTba) console.warn(`[content] ${terms[0].id}: meeting place is TBA — set it in the term file when decided.`);
   expect(true).toBe(true);
-});
-
-test("codle.ts: at least 100 answers, each 5 capital letters A–Z, no duplicates, each with a hint", () => {
-  expect(codleWords.length).toBeGreaterThanOrEqual(100);
-  for (const { word, hint } of codleWords) {
-    expect(word, `codle.ts: "${word}" must be exactly 5 capital letters A–Z`).toMatch(/^[A-Z]{5}$/);
-    expect(hint.trim(), `codle.ts: "${word}" needs a hint`).not.toBe("");
-  }
-  const words = codleWords.map((w) => w.word);
-  const dupes = words.filter((w, i) => words.indexOf(w) !== i);
-  expect(dupes, "codle.ts: duplicate words").toEqual([]);
 });

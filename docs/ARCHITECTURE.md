@@ -9,7 +9,7 @@ If you only update content, you don't need it — see [CONTENT_GUIDE.md](CONTENT
    never contains member names, times, links or copy that changes per semester.
 2. **No backend, no database.** The site builds to static files. Data can move to Firestore/Postgres later because
    records use stable slug ids (`"2026-fall"`, `"ari"`) and are read through a small async layer (`src/apps/exec/api.ts`).
-3. **Pure logic is separated from UI** (`src/lib/`, `calc.ts`, `controlCenterState.ts`, `prefs.ts`, the game rules in `apps/games/*/*.ts`) so it can be unit-tested
+3. **Pure logic is separated from UI** (`src/lib/`, `calc.ts`, `controlCenterState.ts`, `prefs.ts`) so it can be unit-tested
    without a browser. Components stay thin.
 4. **Every app is a lazy chunk.** The home screen loads first; an app's code downloads when it opens.
 
@@ -55,10 +55,6 @@ index.html → frontend.tsx → App.tsx → react-router  (route "*" → <Phone/
   rendered outside `.home-layer` (between home and app window), because a transformed/filtered ancestor disables
   `backdrop-filter`. It stays open under an app launched from it, so closing the app returns to the folder.
   `layout.ts` (`layoutProblems`) checks ids and that every app is placed only once.
-- **Games** (`apps/games/`, in the Games folder): each game is `<Name>App.tsx` (UI) + a React-free rules file with tests
-  (`game2048.ts`, `codle.ts`, `snake.ts`, `minesweeper.ts`, `breakout.ts`). `games/shared.tsx` has the swipe / arrow-key
-  input, the remembered best score (`useRecord`, via `lib/storage.ts`) and the stat chips and overlays. Breakout runs a
-  `requestAnimationFrame` loop on a ref and draws to a canvas; the others are plain React state.
 - **Time.** Meeting times are wall-clock in `America/Chicago` (`site.timeZone`). `lib/time.ts` converts wall-clock ↔
   instant with `Intl` (`zonedTimeToInstant`), so DST changes are correct — Fall 2026 contains the Nov 1 change and is tested.
   Never build a meeting time with `new Date(y, m, d, h)`; that uses the visitor's zone.
@@ -82,7 +78,7 @@ Put app-specific CSS next to the app (`<id>.css`) and prefix classes with the ap
 ## Testing
 
 `bun test` (files `*.test.ts` next to the code). We test **logic and data**, not pixels:
-time/DST, schedule expansion, calculator, control-center state, prefs, resources, FAQ, playlist, registry/layout, game rules, content validity.
+time/DST, schedule expansion, calculator, control-center state, prefs, resources, FAQ, playlist, registry, content validity.
 When you add logic to `src/lib/`, add a test beside it. UI feel (gestures, animation) is checked by hand — please check on
 a real phone if you touch `LockScreen`, `AppWindow` or the card tilt.
 
