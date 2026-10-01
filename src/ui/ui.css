@@ -80,7 +80,7 @@
   margin: 0;
   font-size: var(--fs-subhead);
   line-height: 1.4;
-  color: var(--ink-2);
+  color: rgba(11, 42, 59, 0.82);
 }
 .ui-chips {
   display: flex;
