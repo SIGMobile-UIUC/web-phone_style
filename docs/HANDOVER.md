@@ -141,7 +141,7 @@ docs/             guides (this one, CONTENT_GUIDE, ARCHITECTURE, DEPLOYMENT)
 
 The whole site is a phone-style interface: lock screen → home screen → apps. Everything in the UI is English.
 
-- **Add or reorder home-screen apps:** `src/apps/registry.tsx` (`apps` = definitions, `homeLayout` = order; a test checks the ids).
+- **Add or reorder home-screen apps:** `src/apps/registry.tsx` (`apps` = definitions, `folders` = groups of apps, `homeLayout` = order; a test checks the ids).
 - **Wallpaper / colors:** `src/system/system.css` (`.wallpaper`, theme variables at the top of `.phone-ui`). The look is
   white & blue like the rest of the site. Sizes there use `--u` (1u = 1px on a 390px-wide screen) so the phone scales as
   one piece — use `calc(N * var(--u))`, not raw px.
@@ -158,7 +158,7 @@ The whole site is a phone-style interface: lock screen → home screen → apps.
 
 1. Create `src/apps/<id>/<Name>App.tsx` (wrap your content in `<AppFrame title="...">` from `src/ui/AppFrame`).
 2. Add it to `apps` in `src/apps/registry.tsx` (icon, colors, `component: lazy(() => import("./<id>/<Name>App"))`).
-3. Put its id in `homeLayout`. `bun run check` verifies the ids and that every app has a screen.
+3. Put its id in `homeLayout`, or in a folder's `apps` in `folders`. `bun run check` verifies the ids and that every app has a screen.
 
 ### App status
 

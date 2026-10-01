@@ -1,11 +1,10 @@
 import { expect, test } from "bun:test";
+import { layoutProblems } from "./layout";
 import { appIdFromPath } from "./routes";
-import { apps, homeLayout, internalAppIds } from "./registry";
+import { apps, folders, homeLayout, internalAppIds } from "./registry";
 
-test("every app on the home screen exists, and none is placed twice", () => {
-  const placed = [...homeLayout.pages.flat(), ...homeLayout.dock];
-  for (const id of placed) expect(apps[id], `homeLayout references unknown app "${id}"`).toBeDefined();
-  expect(new Set(placed).size).toBe(placed.length);
+test("every app and folder on the home screen exists, and no app is placed twice", () => {
+  expect(layoutProblems(Object.keys(apps), folders, homeLayout)).toEqual([]);
 });
 
 test("app ids match their keys; external apps are https links, internal apps have a screen", () => {
