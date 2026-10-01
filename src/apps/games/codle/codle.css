@@ -1,0 +1,180 @@
+.codle__grid {
+  position: relative;
+  display: grid;
+  gap: calc(6 * var(--u));
+  justify-content: center;
+  margin: calc(4 * var(--u)) 0 calc(18 * var(--u));
+  --correct: #3faa5a;
+  --present: #e2a300;
+  --absent: #8d9aa5;
+}
+.phone-ui[data-theme="dark"] .codle__grid,
+.phone-ui[data-theme="dark"] .codle__keys {
+  --absent: #3b4756;
+}
+.codle__keys {
+  --correct: #3faa5a;
+  --present: #e2a300;
+  --absent: #8d9aa5;
+}
+.codle__row {
+  display: grid;
+  grid-template-columns: repeat(5, calc(54 * var(--u)));
+  gap: calc(6 * var(--u));
+}
+.codle__row.is-shaking {
+  animation: codle-shake 0.35s ease;
+}
+.codle__tile {
+  display: grid;
+  place-items: center;
+  height: calc(54 * var(--u));
+  border: 2px solid var(--glass-line);
+  border-radius: calc(10 * var(--u));
+  background: var(--surface);
+  font-size: calc(28 * var(--u));
+  font-weight: 700;
+}
+.codle__tile.is-filled {
+  border-color: var(--brand);
+  animation: codle-type 0.1s ease-out;
+}
+.codle__tile.is-correct,
+.codle__tile.is-present,
+.codle__tile.is-absent {
+  border-color: transparent;
+  color: #fff;
+  animation: codle-flip 0.5s ease both;
+}
+.codle__tile.is-correct {
+  background: var(--correct);
+}
+.codle__tile.is-present {
+  background: var(--present);
+}
+.codle__tile.is-absent {
+  background: var(--absent);
+}
+/* The tile turns over and shows its colour halfway, when it is edge-on. */
+@keyframes codle-flip {
+  0%,
+  49% {
+    background: var(--surface);
+    border-color: var(--glass-line);
+    color: var(--ink);
+  }
+  0% {
+    transform: rotateX(0);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+@keyframes codle-type {
+  50% {
+    transform: scale(1.08);
+  }
+}
+@keyframes codle-shake {
+  20%,
+  60% {
+    transform: translateX(calc(-6 * var(--u)));
+  }
+  40%,
+  80% {
+    transform: translateX(calc(6 * var(--u)));
+  }
+}
+.phone-ui[data-motion="reduced"] .codle__tile,
+.phone-ui[data-motion="reduced"] .codle__row {
+  animation: none;
+}
+
+.codle__toast {
+  position: absolute;
+  top: calc(-6 * var(--u));
+  left: 50%;
+  transform: translateX(-50%);
+  padding: calc(8 * var(--u)) calc(14 * var(--u));
+  border-radius: calc(10 * var(--u));
+  background: var(--ink);
+  color: var(--bg);
+  font-size: var(--fs-subhead);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.codle__keys {
+  display: grid;
+  gap: calc(8 * var(--u));
+}
+.codle__keyrow {
+  display: flex;
+  justify-content: center;
+  gap: calc(5 * var(--u));
+}
+.codle__key {
+  flex: 0 1 calc(31 * var(--u));
+  height: calc(52 * var(--u));
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: calc(8 * var(--u));
+  background: rgba(58, 167, 222, 0.16);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.codle__key--wide {
+  flex-basis: calc(48 * var(--u));
+}
+.codle__key svg {
+  width: calc(20 * var(--u));
+  height: calc(20 * var(--u));
+}
+.codle__key:active {
+  filter: brightness(0.9);
+}
+.codle__key:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.codle__key.is-correct,
+.codle__key.is-present,
+.codle__key.is-absent {
+  color: #fff;
+}
+.codle__key.is-correct {
+  background: var(--correct);
+}
+.codle__key.is-present {
+  background: var(--present);
+}
+.codle__key.is-absent {
+  background: var(--absent);
+}
+
+.codle__result {
+  display: grid;
+  justify-items: center;
+  gap: calc(6 * var(--u));
+  text-align: center;
+}
+.codle__result-title {
+  font-size: var(--fs-title3);
+  font-weight: 700;
+}
+.codle__answer {
+  font-size: calc(30 * var(--u));
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--brand-deep);
+}
+.codle__result .ui-button {
+  margin-top: calc(8 * var(--u));
+}

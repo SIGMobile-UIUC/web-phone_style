@@ -1,0 +1,31 @@
+.breakout {
+  aspect-ratio: 360 / 480; /* the field size in breakout.ts */
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--glass-line);
+  cursor: none;
+}
+.breakout__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.breakout .game-overlay {
+  cursor: default;
+}
+.breakout__lives {
+  display: flex;
+  gap: calc(3 * var(--u));
+  padding-top: calc(3 * var(--u));
+}
+.breakout__lives svg {
+  width: calc(18 * var(--u));
+  height: calc(18 * var(--u));
+  color: var(--ink-soft);
+  opacity: 0.4;
+}
+.breakout__lives svg.is-full {
+  color: #ff5f7e;
+  fill: currentColor;
+  opacity: 1;
+}
