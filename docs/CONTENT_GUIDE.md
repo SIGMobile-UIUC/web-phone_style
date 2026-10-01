@@ -35,7 +35,6 @@ Central time. Keep the commas and quotes exactly as in the lines around your cha
 | Messages ("Join us" chat) | `src/content/faq.ts` | [Messages](#messages-faq) |
 | About | `src/content/about.ts` | edit the text in quotes |
 | Music | `src/content/music.ts` | [Music](#music) |
-| Codle words (Games folder) | `src/content/codle.ts` | [Codle](#codle-words) |
 | Discord / Instagram links | `src/content/site.ts` | change the URL |
 | A whole new semester | copy `terms/_template.ts` | [New semester](#new-semester) |
 
@@ -123,13 +122,6 @@ filled in automatically, so don't hard-code the meeting time in an answer. `cta:
 
 `src/content/music.ts`: one line per song; `videoId` is the part after `?v=` in the YouTube URL. Use the **artist's
 official upload**. A test checks the ids look right; a song that can't be embedded is skipped automatically.
-
-## Codle words
-
-`src/content/codle.ts`: the answers for Codle, the Wordle-style game in the Games folder. One line per word:
-`{ word: "SWIFT", hint: "Apple's language for iOS apps." }`. The word must be exactly 5 capital letters A–Z and appear
-only once; the hint is shown when the round ends. Keep them about mobile development, CS or the club. A test checks the
-format and that there are at least 100.
 
 ## New semester
 
