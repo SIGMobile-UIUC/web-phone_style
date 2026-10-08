@@ -1,16 +1,16 @@
-import { Heart, RotateCcw } from "lucide-react";
+import { ArrowRight, Heart, RotateCcw } from "lucide-react";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { usePrefs } from "../../../system/PrefsProvider";
 import AppFrame from "../../../ui/AppFrame";
 import { GameOverlay, onControl, Stat, useRecord } from "../shared";
-import { BALL_R, H, LIVES, movePaddle, newBreakout, PADDLE_H, PADDLE_W, PADDLE_Y, serve, stepBreakout, W, type Breakout } from "./breakout";
+import { BALL_R, H, LIVES, movePaddle, newBreakout, nextLevel, PADDLE_H, PADDLE_W, PADDLE_Y, serve, stepBreakout, W, type Breakout } from "./breakout";
 import "./breakout.css";
 
 const KEY_SPEED = 420; // paddle speed with the arrow keys, field units per second
 const ROW_COLORS = ["#7c5cff", "#c43fcf", "#ff5f7e", "#ff9f40", "#ffc93c", "#3aa7de"];
 
-type Hud = Pick<Breakout, "score" | "lives" | "status">;
-const hudOf = (g: Breakout): Hud => ({ score: g.score, lives: g.lives, status: g.status });
+type Hud = Pick<Breakout, "score" | "lives" | "status" | "level">;
+const hudOf = (g: Breakout): Hud => ({ score: g.score, lives: g.lives, status: g.status, level: g.level });
 
 /**
  * Breakout: drag (or ←/→) to move the paddle, tap (or Space) to launch. The game runs in a requestAnimationFrame
@@ -29,6 +29,10 @@ export default function BreakoutApp() {
   };
   const restart = () => {
     game.current = newBreakout();
+    setHud(hudOf(game.current));
+  };
+  const advance = () => {
+    game.current = nextLevel(game.current);
     setHud(hudOf(game.current));
   };
 
@@ -78,7 +82,7 @@ export default function BreakoutApp() {
       g = stepBreakout(g, dt);
       game.current = g;
       draw(g);
-      if (g.score !== shown.score || g.lives !== shown.lives || g.status !== shown.status) setHud((shown = hudOf(g)));
+      if (g.score !== shown.score || g.lives !== shown.lives || g.status !== shown.status || g.level !== shown.level) setHud((shown = hudOf(g)));
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
@@ -118,6 +122,7 @@ export default function BreakoutApp() {
       <div className="game-bar">
         <Stat label="Score" value={hud.score} />
         <Stat label="Best" value={best ?? 0} />
+        <Stat label="Level" value={hud.level} />
         <Stat
           label="Lives"
           value={
@@ -144,9 +149,9 @@ export default function BreakoutApp() {
 
         {fresh && <GameOverlay title="Breakout" text="Drag to move the paddle, tap to launch. Arrow keys and Space work too." />}
         {hud.status === "won" && (
-          <GameOverlay title="You cleared it!" text={`Every brick is gone. Score: ${hud.score}.`}>
-            <button type="button" className="ui-button" onClick={restart}>
-              <RotateCcw aria-hidden /> Play again
+          <GameOverlay title={`Level ${hud.level} cleared!`} text={`Score: ${hud.score}. Next level: more bricks and a faster ball.`}>
+            <button type="button" className="ui-button" onClick={advance}>
+              Next level <ArrowRight aria-hidden />
             </button>
           </GameOverlay>
         )}

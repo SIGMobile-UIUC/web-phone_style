@@ -7,10 +7,11 @@ export const BALL_R = 6;
 export const PADDLE_W = 64;
 export const PADDLE_H = 10;
 export const PADDLE_Y = 446;
-export const ROWS = 6;
+export const ROWS = 6; // rows of bricks on level 1
+export const MAX_ROWS = 9;
 export const COLS = 8;
 export const LIVES = 3;
-const SPEED = 290; // field units per second
+const SPEED = 290; // launch speed on level 1, field units per second
 const MAX_SPEED = 520;
 const MAX_BOUNCE = (60 * Math.PI) / 180; // off the very end of the paddle
 
@@ -24,6 +25,8 @@ export type Breakout = {
   bricks: Brick[];
   score: number;
   lives: number;
+  /** 1 on a new game. Clearing the wall ("won") lets the player start the next, tougher level. */
+  level: number;
   /** serve = the ball rests on the paddle until launched. */
   status: "serve" | "playing" | "won" | "over";
 };
@@ -31,15 +34,19 @@ export type Breakout = {
 const clamp = (v: number, min: number, max: number) => Math.min(Math.max(v, min), max);
 const onPaddle = (paddle: number): Ball => ({ x: paddle, y: PADDLE_Y - BALL_R, vx: 0, vy: 0 });
 
-/** Points for a brick: the higher the row, the more it is worth. */
-export const brickPoints = (row: number) => (ROWS - row) * 10;
+/** Points for a brick: the higher the row, the more it is worth (the extra rows of later levels are worth the least). */
+export const brickPoints = (row: number) => Math.max(1, ROWS - row) * 10;
 
-export function newBricks(): Brick[] {
+/** Each level adds a row of bricks (up to MAX_ROWS) and launches the ball faster (capped below the in-play top speed). */
+export const rowsFor = (level: number) => Math.min(ROWS + level - 1, MAX_ROWS);
+export const launchSpeed = (level: number) => Math.min(SPEED + 30 * (level - 1), MAX_SPEED - 100);
+
+export function newBricks(rows = ROWS): Brick[] {
   const side = 12;
   const gap = 4;
   const w = (W - side * 2 - gap * (COLS - 1)) / COLS;
   const h = 14;
-  return Array.from({ length: ROWS * COLS }, (_, i) => {
+  return Array.from({ length: rows * COLS }, (_, i) => {
     const row = Math.floor(i / COLS);
     const col = i % COLS;
     return { x: side + col * (w + gap), y: 56 + row * (h + gap), w, h, row, alive: true };
@@ -48,7 +55,14 @@ export function newBricks(): Brick[] {
 
 export function newBreakout(): Breakout {
   const paddle = W / 2;
-  return { paddle, ball: onPaddle(paddle), bricks: newBricks(), score: 0, lives: LIVES, status: "serve" };
+  return { paddle, ball: onPaddle(paddle), bricks: newBricks(), score: 0, lives: LIVES, level: 1, status: "serve" };
+}
+
+/** After a cleared wall: a fresh, bigger wall and a faster ball. Score and lives carry over. */
+export function nextLevel(s: Breakout): Breakout {
+  if (s.status !== "won") return s;
+  const level = s.level + 1;
+  return { ...s, level, bricks: newBricks(rowsFor(level)), ball: onPaddle(s.paddle), status: "serve" };
 }
 
 /** Moves the paddle (centre) to `x`, kept on the field. A served ball rides along. */
@@ -60,7 +74,7 @@ export function movePaddle(s: Breakout, x: number): Breakout {
 /** Launches the ball upward, `angle` radians off vertical (negative = to the left). */
 export function serve(s: Breakout, angle = 0): Breakout {
   if (s.status !== "serve") return s;
-  return { ...s, status: "playing", ball: { ...s.ball, vx: SPEED * Math.sin(angle), vy: -SPEED * Math.cos(angle) } };
+  return { ...s, status: "playing", ball: { ...s.ball, vx: launchSpeed(s.level) * Math.sin(angle), vy: -launchSpeed(s.level) * Math.cos(angle) } };
 }
 
 function hits(b: Ball, r: { x: number; y: number; w: number; h: number }): boolean {
