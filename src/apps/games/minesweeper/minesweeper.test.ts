@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { chord, flagsLeft, layMines, neighbours, newField, reveal, toggleFlag, type Minefield } from "./minesweeper";
+import { chord, flagsLeft, layMines, LEVELS, neighbours, newField, reveal, toggleFlag, type Minefield } from "./minesweeper";
 
 /** A field with mines exactly where the map has "*" (rows of equal length), already in play. */
 function field(map: string[]): Minefield {
@@ -11,6 +11,14 @@ function field(map: string[]): Minefield {
   return { ...f, mines: mines.length, cells, status: "playing" };
 }
 const opened = (f: Minefield) => f.cells.flatMap((c, i) => (c.open ? [i] : []));
+
+test("every level leaves room to keep the first tap's area clear, and each is denser than the last", () => {
+  const density = Object.values(LEVELS).map((l) => {
+    expect(l.mines).toBeLessThanOrEqual(l.w * l.h - 9);
+    return l.mines / (l.w * l.h);
+  });
+  expect(density).toEqual([...density].sort((a, b) => a - b));
+});
 
 test("neighbours stay on the board", () => {
   const f = { w: 3, h: 3 };

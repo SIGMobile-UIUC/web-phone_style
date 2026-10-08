@@ -20,6 +20,14 @@ export function newField(w = 9, h = 9, mines = 10): Minefield {
   return { w, h, mines, cells, status: "ready", exploded: null };
 }
 
+/** Board sizes offered in the app: roughly 12%, 20% and 25% of the cells are mines. */
+export const LEVELS = {
+  easy: { label: "Easy", w: 9, h: 9, mines: 10 },
+  medium: { label: "Medium", w: 10, h: 10, mines: 20 },
+  hard: { label: "Hard", w: 12, h: 12, mines: 36 },
+} as const;
+export type Level = keyof typeof LEVELS;
+
 export function neighbours(f: Pick<Minefield, "w" | "h">, i: number): number[] {
   const x = i % f.w;
   const y = Math.floor(i / f.w);

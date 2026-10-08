@@ -31,11 +31,18 @@ export function useArrowKeys(onDir: (dir: Dir) => void) {
   }, []);
 }
 
+/**
+ * True when the pointer went down on a button or link inside a board (e.g. "Play again" in the overlay). A board that
+ * captures the pointer must leave those alone: capture redirects the click to the board, so the button would never fire.
+ */
+export const onControl = (e: PointerEvent<HTMLElement>) => (e.target as Element).closest("button, a") !== null;
+
 /** Pointer handlers that report one swipe per gesture (touch or mouse). The element needs `touch-action: none`. */
 export function useSwipe(onSwipe: (dir: Dir) => void, minPx = 24) {
   const start = useRef<{ x: number; y: number } | null>(null);
   return {
     onPointerDown: (e: PointerEvent<HTMLElement>) => {
+      if (onControl(e)) return;
       start.current = { x: e.clientX, y: e.clientY };
       e.currentTarget.setPointerCapture(e.pointerId);
     },
