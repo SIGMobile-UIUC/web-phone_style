@@ -27,10 +27,12 @@
 }
 .mines__row {
   display: grid;
-  grid-template-columns: repeat(var(--cols), 1fr);
+  /* minmax(0, 1fr): plain 1fr won't shrink below a cell's content, so 12 columns spilled past the board on a phone */
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
   gap: calc(3 * var(--u));
 }
 .mines__cell {
+  min-width: 0;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
