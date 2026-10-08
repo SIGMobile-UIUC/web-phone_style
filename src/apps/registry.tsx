@@ -4,6 +4,8 @@
 //   `href`      = opens that link in a new tab instead (Discord, Instagram)
 
 import {
+  Bomb,
+  BrickWall,
   Calculator,
   CalendarDays,
   Clock,
@@ -14,6 +16,8 @@ import {
   Music,
   NotebookPen,
   Settings,
+  WholeWord,
+  Worm,
 } from "lucide-react";
 import { lazy, type ComponentType, type LazyExoticComponent } from "react";
 import { FaDiscord, FaInstagram } from "react-icons/fa";
@@ -44,6 +48,15 @@ const ProjectsGlyph: AppIcon = ({ size = 24, className }) => (
   </svg>
 );
 
+// "2048" as a tiny tile, like the game's own icon.
+const Glyph2048: AppIcon = ({ size = 24, className }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden>
+    <text x="12" y="15.2" textAnchor="middle" fontSize="8.6" fontWeight="800" fill="currentColor" fontFamily="inherit">
+      2048
+    </text>
+  </svg>
+);
+
 export const apps: Record<string, AppManifest> = {
   about: { id: "about", name: "About", icon: Info, colors: ["#5ac8fa", "#0a7aff"], component: lazy(() => import("./about/AboutApp")) },
   projects: { id: "projects", name: "Projects", icon: ProjectsGlyph, colors: ["#24cbff", "#1a63ff"], component: lazy(() => import("./projects/ProjectsApp")) },
@@ -58,17 +71,26 @@ export const apps: Record<string, AppManifest> = {
   settings: { id: "settings", name: "Settings", icon: Settings, colors: ["#a9acb2", "#6d7077"], component: lazy(() => import("./settings/SettingsApp")) },
   discord: { id: "discord", name: "Discord", icon: FaDiscord, colors: ["#7b8cff", "#4f5bd5"], href: site.links.discord },
   instagram: { id: "instagram", name: "Instagram", icon: FaInstagram, colors: ["#f58529", "#dd2a7b"], href: site.links.instagram },
+
+  // Games (in the Games folder). Each game's rules live next to it in a plain .ts file with tests.
+  "2048": { id: "2048", name: "2048", icon: Glyph2048, colors: ["#ffcf70", "#ff9500"], component: lazy(() => import("./games/2048/Game2048App")) },
+  codle: { id: "codle", name: "Codle", icon: WholeWord, colors: ["#6fdc8c", "#23a047"], component: lazy(() => import("./games/codle/CodleApp")) },
+  snake: { id: "snake", name: "Snake", icon: Worm, colors: ["#b69cff", "#6c3ce0"], component: lazy(() => import("./games/snake/SnakeApp")) },
+  minesweeper: { id: "minesweeper", name: "Minesweeper", icon: Bomb, colors: ["#ff8a8a", "#e0245e"], component: lazy(() => import("./games/minesweeper/MinesweeperApp")) },
+  breakout: { id: "breakout", name: "Breakout", icon: BrickWall, colors: ["#62e0e8", "#1f86bd"], component: lazy(() => import("./games/breakout/BreakoutApp")) },
 };
 
 /**
  * Folders on the home screen. Put the folder's id in `homeLayout` like an app id; tapping it opens a grid of its
  * `apps` (up to 9 show on the folder tile). An app inside a folder must not also be placed elsewhere.
  */
-export const folders: Record<string, FolderManifest> = {};
+export const folders: Record<string, FolderManifest> = {
+  games: { id: "games", name: "Games", apps: ["2048", "codle", "snake", "minesweeper", "breakout"] },
+};
 
 /** What is on the home screen, in order: app ids and folder ids (a test checks every id exists and is used once). */
 export const homeLayout: HomeLayout = {
-  pages: [["about", "projects", "exec", "calendar", "clock", "maps", "notes", "calculator", "settings"]],
+  pages: [["about", "projects", "exec", "calendar", "clock", "maps", "notes", "calculator", "settings", "games"]],
   dock: ["messages", "music", "discord", "instagram"],
 };
 
