@@ -5,11 +5,14 @@
 import plugin from "bun-plugin-tailwind";
 import { rm } from "fs/promises";
 import path from "path";
+import { pointHtmlAtEntry } from "./build-html";
 
 const outArg = process.argv.find((a) => a.startsWith("--outdir="));
 const outdir = path.resolve(outArg ? outArg.slice("--outdir=".length) : "dist");
 
 await rm(outdir, { recursive: true, force: true });
+
+const publicPath = "/"; // absolute asset URLs so deep links like /exec/... still load them
 
 const start = performance.now();
 const result = await Bun.build({
@@ -20,13 +23,26 @@ const result = await Bun.build({
   splitting: true, // lazy-loaded apps become separate chunks
   target: "browser",
   sourcemap: "linked",
-  publicPath: "/", // absolute asset URLs so deep links like /exec/... still load them
+  publicPath,
   define: { "process.env.NODE_ENV": JSON.stringify("production") },
 });
 
 if (!result.success) {
   for (const log of result.logs) console.error(log);
   process.exit(1);
+}
+
+// Make sure index.html loads the real entry chunk (see build-html.ts). Fails the build rather than ship a blank page.
+const entryChunks = result.outputs.filter((o) => o.kind === "entry-point" && o.path.endsWith(".js"));
+const htmlOutput = result.outputs.find((o) => o.path.endsWith(".html"));
+if (entryChunks.length !== 1 || !htmlOutput) {
+  console.error(`Expected one entry chunk and index.html in the build output, got ${entryChunks.length} chunk(s)${htmlOutput ? "" : " and no html"}.`);
+  process.exit(1);
+}
+const wired = pointHtmlAtEntry(await Bun.file(htmlOutput.path).text(), path.basename(entryChunks[0].path), publicPath);
+if (wired.changed) {
+  await Bun.write(htmlOutput.path, wired.html);
+  console.warn(`WARNING: index.html loaded ${wired.was} (not the entry chunk); repointed it to ${path.basename(entryChunks[0].path)}. This Bun (${Bun.version}) mis-wires split builds.`);
 }
 
 const kb = (n: number) => `${(n / 1024).toFixed(1)} KB`;
