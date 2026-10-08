@@ -2,14 +2,17 @@ import { Bomb, Flag, Pickaxe, RotateCcw, X } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import AppFrame from "../../../ui/AppFrame";
 import { Stat, useRecord } from "../shared";
-import { chord, flagsLeft, newField, reveal, toggleFlag, type Minefield } from "./minesweeper";
+import { chord, flagsLeft, LEVELS, newField, reveal, toggleFlag, type Level, type Minefield } from "./minesweeper";
 import "./minesweeper.css";
 
 const LONG_PRESS_MS = 380;
 
-/** Minesweeper, 9×9 with 10 mines. Tap to dig; long-press, right-click or Flag mode to flag. Logic in minesweeper.ts. */
+const freshField = (level: Level) => newField(LEVELS[level].w, LEVELS[level].h, LEVELS[level].mines);
+
+/** Minesweeper in three sizes (Medium to start). Tap to dig; long-press, right-click or Flag mode to flag. Logic in minesweeper.ts. */
 export default function MinesweeperApp() {
-  const [field, setField] = useState(() => newField());
+  const [level, setLevel] = useState<Level>("medium");
+  const [field, setField] = useState(() => freshField("medium"));
   const [mode, setMode] = useState<"dig" | "flag">("dig");
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [endedAt, setEndedAt] = useState<number | null>(null);
@@ -18,7 +21,7 @@ export default function MinesweeperApp() {
 
   const ended = field.status === "won" || field.status === "lost";
   const seconds = startedAt ? Math.floor(((endedAt ?? now) - startedAt) / 1000) : 0;
-  const best = useRecord("minesweeper", field.status === "won" ? Math.max(1, seconds) : null, true);
+  const best = useRecord(`minesweeper-${level}`, field.status === "won" ? Math.max(1, seconds) : null, true);
 
   useEffect(() => {
     if (field.status !== "playing") return;
@@ -35,11 +38,13 @@ export default function MinesweeperApp() {
     setNow(t);
     setField(next);
   };
-  const restart = () => {
-    setField(newField());
+  const start = (next: Level) => {
+    setLevel(next);
+    setField(freshField(next));
     setStartedAt(null);
     setEndedAt(null);
   };
+  const restart = () => start(level);
 
   const flag = (i: number) => update(toggleFlag(field, i));
   const tap = (i: number) => {
@@ -71,6 +76,14 @@ export default function MinesweeperApp() {
         <button type="button" className="ui-button ui-button--soft" onClick={restart} aria-label="New game">
           <RotateCcw aria-hidden />
         </button>
+      </div>
+
+      <div className="mines__modes mines__modes--levels" role="radiogroup" aria-label="Board size">
+        {(Object.keys(LEVELS) as Level[]).map((l) => (
+          <button key={l} type="button" role="radio" aria-checked={level === l} className={level === l ? "is-on" : ""} onClick={() => start(l)}>
+            {LEVELS[l].label}
+          </button>
+        ))}
       </div>
 
       <div className="game-board mines" role="grid" aria-label="Minefield" style={{ "--cols": field.w } as CSSProperties}>

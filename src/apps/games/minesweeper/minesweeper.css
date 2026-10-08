@@ -86,6 +86,10 @@
   background: var(--surface);
   border: 1px solid var(--glass-line);
 }
+.mines__modes--levels {
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 0 calc(12 * var(--u));
+}
 .mines__modes button {
   display: flex;
   align-items: center;
