@@ -2,7 +2,7 @@ import { Heart, RotateCcw } from "lucide-react";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { usePrefs } from "../../../system/PrefsProvider";
 import AppFrame from "../../../ui/AppFrame";
-import { GameOverlay, Stat, useRecord } from "../shared";
+import { GameOverlay, onControl, Stat, useRecord } from "../shared";
 import { BALL_R, H, LIVES, movePaddle, newBreakout, PADDLE_H, PADDLE_W, PADDLE_Y, serve, stepBreakout, W, type Breakout } from "./breakout";
 import "./breakout.css";
 
@@ -133,6 +133,7 @@ export default function BreakoutApp() {
       <div
         className="game-board breakout"
         onPointerDown={(e) => {
+          if (onControl(e)) return; // "Play again" must get its own click (see onControl)
           e.currentTarget.setPointerCapture(e.pointerId);
           follow(e);
         }}
