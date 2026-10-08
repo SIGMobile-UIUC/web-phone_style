@@ -1,0 +1,69 @@
+.g2048 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: calc(10 * var(--u));
+  aspect-ratio: 1;
+  padding: calc(10 * var(--u));
+  background: var(--surface);
+  border: 1px solid var(--glass-line);
+}
+.g2048__cell {
+  display: grid;
+  min-height: 0;
+  border-radius: calc(12 * var(--u));
+  background: rgba(58, 167, 222, 0.12);
+}
+.g2048__tile {
+  display: grid;
+  place-items: center;
+  border-radius: calc(12 * var(--u));
+  font-size: calc(34 * var(--u));
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  background: var(--tile);
+}
+.g2048__tile[data-digits="3"] {
+  font-size: calc(28 * var(--u));
+}
+.g2048__tile[data-digits="4"] {
+  font-size: calc(22 * var(--u));
+}
+.g2048__tile[data-digits="5"] {
+  font-size: calc(18 * var(--u));
+}
+/* Light blues for small tiles, through the brand blue, to purple, pink, orange and gold for 2048. */
+.g2048__tile[data-v="2"] { --tile: #e3f3fc; color: #0b2a3b; }
+.g2048__tile[data-v="4"] { --tile: #c4e6f8; color: #0b2a3b; }
+.g2048__tile[data-v="8"] { --tile: #8fd0f1; color: #0b2a3b; }
+.g2048__tile[data-v="16"] { --tile: #3aa7de; }
+.g2048__tile[data-v="32"] { --tile: #1f86bd; }
+.g2048__tile[data-v="64"] { --tile: #145f8a; }
+.g2048__tile[data-v="128"] { --tile: #7c5cff; }
+.g2048__tile[data-v="256"] { --tile: #5b3fd6; }
+.g2048__tile[data-v="512"] { --tile: #c43fcf; }
+.g2048__tile[data-v="1024"] { --tile: #ff7a3d; }
+.g2048__tile[data-v="2048"] { --tile: #ffb300; }
+.g2048__tile[data-v="4096"] { --tile: #0b2a3b; }
+
+.g2048__tile.is-new {
+  animation: g2048-pop 0.18s ease-out;
+}
+.g2048__tile.is-merged {
+  animation: g2048-bump 0.18s ease-out;
+}
+@keyframes g2048-pop {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+@keyframes g2048-bump {
+  50% {
+    transform: scale(1.14);
+  }
+}
+.phone-ui[data-motion="reduced"] .g2048__tile {
+  animation: none;
+}

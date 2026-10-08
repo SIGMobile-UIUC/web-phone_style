@@ -175,6 +175,7 @@ The whole site is a phone-style interface: lock screen → home screen → apps.
 | Calculator | done (`apps/calculator/calc.ts` + tests) | — |
 | Music | done (10-song playlist from `src/content/music.ts`, streams from YouTube after pressing play; next/previous/volume; keeps playing when the app is closed and shows in the Dynamic Island and Control Center; a song that can't be embedded is skipped automatically) | — |
 | Settings | done (dark mode, wallpaper, reduce motion; saved in the browser) | — |
+| Games folder | done: 2048, Codle (Wordle-style, words in `src/content/codle.ts`), Snake, Minesweeper, Breakout (`apps/games/*`, rules in a plain `.ts` + tests next to each; best scores saved in the browser) | — |
 | Discord / Instagram | done | external links |
 | System | lock, unlock, home, app open/close, Dynamic Island (music + live meeting), **Control Center** done | Not planned: Notification Center, Spotlight, app switcher, home edit mode |
 
@@ -188,4 +189,4 @@ To change the songs, edit `src/content/music.ts` (one line per song; use the art
 
 Content you can edit without touching UI code: `about.ts` (About text), `resources.ts` (Notes links), `faq.ts` (Messages
 chat; placeholders `{{meeting}}`, `{{term}}`, `{{projects}}` are filled in automatically), `music.ts` (the playlist),
-`site.ts` (links, time zone), and the term files. `bun run check` validates them (https links, unique ids, valid dates).
+`codle.ts` (Codle answers + hints), `site.ts` (links, time zone), and the term files. `bun run check` validates them (https links, unique ids, valid dates).
