@@ -4,12 +4,16 @@ import {
   brickPoints,
   COLS,
   H,
+  launchSpeed,
   LIVES,
+  MAX_ROWS,
   movePaddle,
   newBreakout,
+  nextLevel,
   PADDLE_W,
   PADDLE_Y,
   ROWS,
+  rowsFor,
   serve,
   stepBreakout,
   W,
@@ -85,6 +89,24 @@ test("breaking the last brick wins", () => {
   const brick = { x: 100, y: 100, w: 40, h: 14, row: 5, alive: true };
   const g = stepBreakout(playing({ x: 120, y: 125, vx: 0, vy: -200 }, { bricks: [brick] }), 0.05);
   expect(g.status).toBe("won");
+});
+
+test("clearing the wall opens the next level: bigger wall, faster ball, score and lives kept", () => {
+  const cleared: Breakout = { ...newBreakout(), bricks: [], status: "won", score: 120, lives: 2 };
+  const next = nextLevel(cleared);
+  expect(next).toMatchObject({ level: 2, status: "serve", score: 120, lives: 2 });
+  expect(next.bricks).toHaveLength(rowsFor(2) * COLS);
+  expect(next.bricks.every((b) => b.alive)).toBe(true);
+  expect(Math.abs(serve(next).ball.vy)).toBeGreaterThan(Math.abs(serve(newBreakout()).ball.vy));
+  expect(nextLevel(newBreakout())).toEqual(newBreakout()); // only after winning
+});
+
+test("levels get harder up to a cap", () => {
+  expect(rowsFor(1)).toBe(ROWS);
+  expect(rowsFor(99)).toBe(MAX_ROWS);
+  expect(launchSpeed(2)).toBeGreaterThan(launchSpeed(1));
+  expect(launchSpeed(99)).toBe(launchSpeed(50));
+  expect(brickPoints(MAX_ROWS - 1)).toBeGreaterThan(0); // the extra rows still score
 });
 
 test("missing the ball costs a life; the last one ends the game", () => {
