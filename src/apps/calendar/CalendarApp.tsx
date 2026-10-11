@@ -91,20 +91,27 @@ export default function CalendarApp() {
         <p className="cal-empty">Nothing scheduled.</p>
       ) : (
         items.map((item, i) => (
-          <article className={`cal-item cal-item--${item.kind === "meeting" ? "meeting" : "event"}`} key={i}>
-            <div className="cal-item__top">
-              <h3 className="cal-item__title">{item.title}</h3>
-              <span className="cal-item__kind">{KIND_LABEL[item.kind]}</span>
+        <article className={`cal-item cal-item--${item.kind === "meeting" ? "meeting" : "event"}`} key={i}>
+          <div className="cal-item__top">
+            <h3 className="cal-item__title">{item.title}</h3>
+            <span className="cal-item__kind">{KIND_LABEL[item.kind]}</span>
+          </div>
+          
+          {item.start && item.end && (
+            <div className="cal-item__time">
+              {formatTimeRange({ start: item.start, end: item.end })}
             </div>
-            {item.start && item.end && <div className="cal-item__time">{formatTimeRange({ start: item.start, end: item.end })}</div>}
-            {item.place && (
-              <div className="cal-item__place">
-                <MapPin aria-hidden /> {formatPlace(item.place)}
-              </div>
-            )}
-            {item.note && <p className="cal-item__note">{item.note}</p>}
-          </article>
-        ))
+          )}
+          
+          {item.place && (
+            <div className="cal-item__place">
+              <MapPin aria-hidden /> {formatPlace(item.place)}
+            </div>
+          )}
+          
+          {item.note && <p className="cal-item__note">{item.note}</p>}
+        </article>
+      ))
       )}
     </AppFrame>
   );
