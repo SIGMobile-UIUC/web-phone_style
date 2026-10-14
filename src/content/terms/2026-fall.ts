@@ -43,6 +43,7 @@ export default {
     { date: "2026-10-14", title: "More development", kind: "milestone", note: "Week 5 · Ideally close to MVP" },
     { date: "2026-10-21", title: "Progress check", kind: "milestone", note: "Week 6 · Are we close to MVP?" },
     { date: "2026-10-28", title: "Polish features, part I", kind: "milestone", note: "Week 7 · Comfort features. Recognize blockers and plan how to overcome them" },
+    { date: "2026-11-02", title: "SIGMobile Social", kind: "social", start: "17:00", end: "18:00" },
     { date: "2026-11-04", title: "Polish features, part II", kind: "milestone", note: "Week 8 · Working towards deployment. Explore tech stacks for faster development" },
     { date: "2026-11-11", title: "Beta testing", kind: "milestone", note: "Week 9 · Test apps with other students. Close to MVP? Polish features for the showcase, otherwise keep developing" },
     { date: "2026-11-18", title: "Project Showcase", kind: "showcase", note: "Week 10 · Plus development time and stack workshops" },

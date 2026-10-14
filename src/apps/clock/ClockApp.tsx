@@ -1,7 +1,8 @@
 import { site } from "../../content/site";
 import { terms } from "../../content/terms";
+import type { EventKind } from "../../content/types";
 import { clockParts, formatDateLabel, formatLongDate, formatMeetingWhen, formatPlace } from "../../lib/format";
-import { nextMeeting, upcomingEvents } from "../../lib/schedule";
+import { eventTimes, nextMeeting, upcomingEvents } from "../../lib/schedule";
 import { countdown } from "../../lib/time";
 import { todayInClubZone } from "../../lib/calendar";
 import { useNow } from "../../system/useNow";
@@ -9,6 +10,9 @@ import AppFrame from "../../ui/AppFrame";
 import "./clock.css";
 
 const pad = (n: number) => String(n).padStart(2, "0");
+
+/** The small heading of an event's countdown card, by kind. */
+const EVENT_LABEL: Partial<Record<EventKind, string>> = { social: "Social", showcase: "Showcase", deploy: "Deployment" };
 
 /** Big live countdown: days / hours / minutes / seconds. */
 function CountdownCard({ label, title, sub, ms, ended }: { label: string; title: string; sub?: string; ms: number; ended?: boolean }) {
@@ -39,7 +43,7 @@ export default function ClockApp() {
   const showMine = mine.time !== club.time || mine.period !== club.period;
 
   const next = nextMeeting(terms, now);
-  const events = upcomingEvents(terms, now, ["showcase", "deploy"]);
+  const events = upcomingEvents(terms, now, ["social", "showcase", "deploy"]);
 
   return (
     <AppFrame title="Clock">
@@ -80,15 +84,19 @@ export default function ClockApp() {
         </section>
       )}
 
-      {events.map(({ event, at }) => (
-        <CountdownCard
-          key={`${event.date}-${event.title}`}
-          label={event.kind === "showcase" ? "Showcase" : "Deployment"}
-          title={event.title}
-          sub={`${formatDateLabel(event.date)}${event.date === todayInClubZone(now) ? " · today" : ""}`}
-          ms={at.getTime() - now.getTime()}
-        />
-      ))}
+      {events.map(({ event, at }) => {
+        const times = eventTimes(event);
+        return (
+          <CountdownCard
+            key={`${event.date}-${event.title}`}
+            label={EVENT_LABEL[event.kind] ?? event.title}
+            title={event.title}
+            // A timed event shows its time ("Mon, Nov 2 · 5:00–6:00 PM CT"); an all-day one just the date.
+            sub={times ? formatMeetingWhen(times) : `${formatDateLabel(event.date)}${event.date === todayInClubZone(now) ? " · today" : ""}`}
+            ms={at.getTime() - now.getTime()}
+          />
+        );
+      })}
     </AppFrame>
   );
 }
