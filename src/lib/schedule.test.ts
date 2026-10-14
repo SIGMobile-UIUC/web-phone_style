@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test";
 import { terms } from "../content/terms";
 import type { Term } from "../content/types";
-import { eventMoment, meetingsOf, nextMeeting, upcomingEvents } from "./schedule";
+import { eventMoment, eventTimes, meetingsOf, nextMeeting, upcomingEvents } from "./schedule";
 
 const place = { name: "Room A" };
 const base = (over: Partial<Term>): Term => ({
@@ -73,6 +73,14 @@ test("event moments: the meeting's start on meeting days, midnight (Chicago) oth
   const at = (title: string) => eventMoment(term, term.events.find((e) => e.title === title)!).toISOString();
   expect(at("Project Showcase")).toBe("2026-11-19T00:00:00.000Z"); // Wed 11/18, 6pm CST
   expect(at("Creating project groups")).toBe("2026-09-14T05:00:00.000Z"); // Mon 9/14, no meeting: 00:00 CDT
+});
+
+test("a timed event counts down to its own start and has an end; an all-day one has no times", () => {
+  const social = { date: "2030-11-04", title: "Social", kind: "social", start: "17:00", end: "18:00" } as const; // Mon, after DST ended
+  expect(eventMoment(base({}), social).toISOString()).toBe("2030-11-04T23:00:00.000Z"); // 17:00 CST
+  expect(eventTimes(social)!.end.toISOString()).toBe("2030-11-05T00:00:00.000Z");
+  expect(eventTimes({ date: "2030-11-04", title: "Day", kind: "milestone" })).toBeNull();
+  expect(upcomingEvents([base({ events: [social] })], new Date("2030-11-04T20:00:00Z"), ["social"]).map((e) => e.event.title)).toEqual(["Social"]);
 });
 
 test("upcomingEvents gives the next showcase and deploy, soonest first, skipping the past", () => {

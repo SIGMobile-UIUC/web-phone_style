@@ -56,11 +56,19 @@ export function nextMeeting(terms: Term[], now: Date, timeZone: string = site.ti
   return { occurrence: found, state: found.start.getTime() <= now.getTime() ? "live" : "upcoming" };
 }
 
+/** The start and end of an event that has its own time (e.g. the social); null for an all-day event. */
+export function eventTimes(ev: CalendarEvent, timeZone: string = site.timeZone): { start: Date; end: Date } | null {
+  if (!ev.start || !ev.end) return null;
+  return { start: zonedTimeToInstant(ev.date, ev.start, timeZone), end: zonedTimeToInstant(ev.date, ev.end, timeZone) };
+}
+
 /**
- * When an all-day event "happens" for countdown purposes: the start of that day's meeting if there is one
- * (the showcase is a Wednesday night), otherwise midnight in the club's zone.
+ * When an event "happens" for countdown purposes: its own start time if it has one, else the start of that day's
+ * meeting if there is one (the showcase is a Wednesday night), otherwise midnight in the club's zone.
  */
 export function eventMoment(term: Term, ev: CalendarEvent, timeZone: string = site.timeZone): Date {
+  const own = eventTimes(ev, timeZone);
+  if (own) return own.start;
   const meeting = meetingsOf(term, timeZone).find((m) => m.date === ev.date);
   return meeting ? meeting.start : zonedTimeToInstant(ev.date, "00:00", timeZone);
 }

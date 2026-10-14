@@ -41,11 +41,16 @@ export type MeetingException = {
 
 export type EventKind = "milestone" | "showcase" | "deploy" | "social";
 
-/** An all-day item on the calendar (the weekly meetings are generated, don't list them here). */
+/**
+ * An item on the calendar (the weekly meetings are generated, don't list them here). All-day unless it has a
+ * `start` and `end` (set both), which are club-time-zone times like a meeting's.
+ */
 export type CalendarEvent = {
   date: DateString;
   title: string;
   kind: EventKind;
+  start?: TimeString;
+  end?: TimeString;
   note?: string;
 };
 

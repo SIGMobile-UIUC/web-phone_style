@@ -27,6 +27,7 @@ export default {
 
   events: [
     // { date: "2027-04-28", title: "Project Showcase", kind: "showcase" },   // kind: milestone | showcase | deploy | social
+    // { date: "2027-03-01", title: "SIGMobile Social", kind: "social", start: "17:00", end: "18:00" },   // optional time (24h, Central)
   ],
 
   projects: [

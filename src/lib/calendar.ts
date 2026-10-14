@@ -2,7 +2,7 @@
 
 import { site } from "../content/site";
 import type { DateString, EventKind, Place, Term } from "../content/types";
-import { meetingsOf } from "./schedule";
+import { eventTimes, meetingsOf } from "./schedule";
 import { addDays, formatDate, instantToZoned, parseDate } from "./time";
 
 export type YearMonth = { y: number; m: number }; // m = 1..12
@@ -43,7 +43,7 @@ export const todayInClubZone = (now: Date, timeZone: string = site.timeZone): Da
 export type AgendaItem = {
   kind: "meeting" | EventKind;
   title: string;
-  /** Meetings only. */
+  /** Meetings, and events that have their own time (e.g. the social). */
   start?: Date;
   end?: Date;
   place?: Place;
@@ -56,7 +56,7 @@ export function agendaByDate(terms: Term[], timeZone: string = site.timeZone): M
   const add = (date: DateString, item: AgendaItem) => byDate.set(date, [...(byDate.get(date) ?? []), item]);
 
   for (const term of terms) {
-    for (const ev of term.events) add(ev.date, { kind: ev.kind, title: ev.title, note: ev.note });
+    for (const ev of term.events) add(ev.date, { kind: ev.kind, title: ev.title, note: ev.note, ...eventTimes(ev, timeZone) });
     for (const m of meetingsOf(term, timeZone)) {
       add(m.date, { kind: "meeting", title: "Weekly meeting", start: m.start, end: m.end, place: m.place, note: m.note });
     }

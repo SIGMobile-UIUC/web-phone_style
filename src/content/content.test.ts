@@ -77,6 +77,12 @@ for (const term of terms) {
       parseDate(ev.date);
       expect(ev.date >= term.start && ev.date <= term.end, `event "${ev.title}" is outside the term`).toBe(true);
       expect(ev.title.trim()).not.toBe("");
+      expect(!!ev.start === !!ev.end, `event "${ev.title}": set both start and end, or neither`).toBe(true);
+      if (ev.start && ev.end) {
+        const s = parseTime(ev.start);
+        const e = parseTime(ev.end);
+        expect(e.h * 60 + e.min, `event "${ev.title}" must end after it starts`).toBeGreaterThan(s.h * 60 + s.min);
+      }
     }
   });
 
