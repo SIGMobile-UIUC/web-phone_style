@@ -1,7 +1,16 @@
 import { expect, test } from "bun:test";
 import { getTerm } from "../../content/terms";
 import { getRoster, listTerms } from "./api";
-import { rarityOf, standingHp } from "./roles";
+import { rarityOf, roleStyle, standingHp } from "./roles";
+
+test("role keywords pick the card style; the first match wins", () => {
+  expect(roleStyle("Development").type.name).toBe("Grass");
+  expect(roleStyle("Software Developer").type.name).toBe("Grass");
+  expect(roleStyle("Infra & Dev").type.name).toBe("Metal"); // infra comes before dev
+  expect(roleStyle("President").type.name).toBe("Dragon");
+  expect(roleStyle("Member").type.name).toBe("Colorless");
+  expect(roleStyle("Development").rarity).toBe("rare holo"); // no louder than the default foil
+});
 
 test("roster comes back in the file's order with the term's role", async () => {
   const roster = await getRoster("2026-fall");
