@@ -1,16 +1,13 @@
 import { ArrowUpRight, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { resources } from "../../content/resources";
-import { todayInClubZone } from "../../lib/calendar";
-import { domainOf, filterResources, groupByCategory, isRecent } from "../../lib/resources";
-import { useNow } from "../../system/useNow";
+import { domainOf, filterResources, groupByCategory } from "../../lib/resources";
 import AppFrame from "../../ui/AppFrame";
 import "./notes.css";
 
 /** Learning resources, grouped by category. The list lives in src/content/resources.ts. */
 export default function NotesApp() {
   const [query, setQuery] = useState("");
-  const today = todayInClubZone(useNow(3_600_000));
   const groups = useMemo(() => groupByCategory(filterResources(resources, query)), [query]);
 
   return (
@@ -37,10 +34,7 @@ export default function NotesApp() {
             {items.map((r) => (
               <a className="notes-row" key={r.url} href={r.url} target="_blank" rel="noopener noreferrer">
                 <span className="notes-row__main">
-                  <span className="notes-row__title">
-                    {r.title}
-                    {isRecent(r.addedAt, today) && <span className="notes-row__new">New</span>}
-                  </span>
+                  <span className="notes-row__title">{r.title}</span>
                   {r.note && <span className="notes-row__note">{r.note}</span>}
                   <span className="notes-row__domain">{domainOf(r.url)}</span>
                 </span>
