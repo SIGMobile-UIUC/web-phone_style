@@ -101,8 +101,8 @@ The Notes app shows `resources` grouped by category. One link = one line in `src
   note: "Components, APIs and guides", addedAt: "2026-09-19" },
 ```
 
-- `category`: reuse an existing one (Mobile, Backend, Databases, Hardware) or type a new name — a new group appears automatically.
-- `note` is optional. `addedAt` is today's date; links from the last 14 days get a **New** badge.
+- `category`: reuse an existing one (Meeting slides, Mobile, Backend, Databases, Hardware) or type a new name — a new group appears automatically.
+- `note` is optional. `addedAt` decides the order inside a group (newest first): use today's date, or the meeting's date for **Meeting slides** — one line per meeting, add it at the top of the list.
 - Prefer official docs and free material. Remove dead links by deleting the line.
 
 ## Meetings and calendar

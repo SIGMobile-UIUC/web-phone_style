@@ -1,6 +1,7 @@
 import { expect, test } from "bun:test";
 import { resources, type Resource } from "../content/resources";
-import { domainOf, filterResources, groupByCategory, isRecent } from "./resources";
+import { domainOf, filterResources, groupByCategory } from "./resources";
+import { parseDate } from "./time";
 
 const sample: Resource[] = [
   { category: "A", title: "Alpha docs", url: "https://a.example/x", addedAt: "2026-09-01" },
@@ -22,13 +23,6 @@ test("groups keep category order; newest first inside a group", () => {
   expect(groups[0].items.map((r) => r.title)).toEqual(["Gamma", "Alpha docs"]);
 });
 
-test("recent = within two weeks, not from the future", () => {
-  expect(isRecent("2026-09-19", "2026-09-19")).toBe(true);
-  expect(isRecent("2026-09-05", "2026-09-19")).toBe(true);
-  expect(isRecent("2026-09-04", "2026-09-19")).toBe(false);
-  expect(isRecent("2026-09-25", "2026-09-19")).toBe(false);
-});
-
 test("domain drops www", () => {
   expect(domainOf("https://www.c.example/path")).toBe("c.example");
 });
@@ -40,7 +34,7 @@ test("every resource in content/resources.ts is well-formed", () => {
     expect(() => new URL(r.url)).not.toThrow();
     expect(r.title.trim(), "title").not.toBe("");
     expect(r.category.trim(), "category").not.toBe("");
-    expect(isRecent(r.addedAt, "2999-01-01", 1e9)).toBe(true); // valid YYYY-MM-DD
+    expect(() => parseDate(r.addedAt), `${r.title}: addedAt must be a real YYYY-MM-DD date`).not.toThrow();
     expect(urls.has(r.url), `duplicate link: ${r.url}`).toBe(false);
     urls.add(r.url);
   }
